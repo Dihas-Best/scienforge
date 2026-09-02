@@ -12,7 +12,7 @@ export default function Privacy() {
       <h1 className="text-2xl font-semibold tracking-tight">Privacy policy</h1>
       <div className="prose-sf mt-5">
         <p>
-          <strong>Last updated:</strong> replace this with the date you publish the site.
+          <strong>Last updated:</strong> 1st of September, 2026
         </p>
 
         <h2>What we collect</h2>
