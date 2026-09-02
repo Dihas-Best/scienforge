@@ -1,0 +1,168 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #f2f4ef;
+  --color-panel: #ffffff;
+  --color-rule: #c8d0c9;
+  --color-rule-soft: #e2e7e0;
+  --color-ink: #16201c;
+  --color-ink-soft: #5a6960;
+  --color-plotter: #1540c4;
+  --color-readout: #131c18;
+  --color-readout-ink: #eaf3ec;
+
+  --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+  --font-serif: var(--font-plex-serif), Georgia, serif;
+}
+
+/* Drafting-pad grid. Sits behind everything, never competes with text. */
+html {
+  background-color: var(--color-paper);
+  background-image:
+    linear-gradient(to right, rgba(22, 32, 28, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(22, 32, 28, 0.045) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+body {
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--color-plotter);
+  text-underline-offset: 3px;
+}
+a:hover { text-decoration: underline; }
+
+:focus-visible {
+  outline: 2px solid var(--color-plotter);
+  outline-offset: 2px;
+}
+
+/* ---------- Panels ---------- */
+.panel {
+  background: var(--color-panel);
+  border: 1px solid var(--color-rule);
+  border-radius: 2px;
+}
+
+/* ---------- Field ---------- */
+.field-label {
+  display: block;
+  font-size: 0.8125rem;
+  line-height: 1.2;
+  color: var(--color-ink-soft);
+  margin-bottom: 0.35rem;
+}
+.field-input {
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  padding: 0.5rem 0.625rem;
+  background: var(--color-panel);
+  border: 1px solid var(--color-rule);
+  border-radius: 2px;
+  color: var(--color-ink);
+}
+.field-input:focus { border-color: var(--color-plotter); }
+.field-input[aria-invalid="true"] { border-color: #b3261e; }
+
+/* ---------- Readout: the signature element ---------- */
+.readout {
+  background: var(--color-readout);
+  color: var(--color-readout-ink);
+  border-radius: 2px;
+  padding: 1rem 1.125rem 1.125rem;
+  position: relative;
+  overflow: hidden;
+}
+/* tick marks along the top edge, like an instrument scale */
+.readout::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 7px;
+  background-image: repeating-linear-gradient(
+    to right,
+    rgba(234, 243, 236, 0.5) 0 1px,
+    transparent 1px 9px
+  );
+}
+.readout-name {
+  font-size: 0.75rem;
+  color: rgba(234, 243, 236, 0.62);
+  margin-bottom: 0.25rem;
+}
+.readout-value {
+  font-family: var(--font-mono);
+  font-size: clamp(1.6rem, 5vw, 2.25rem);
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  word-break: break-word;
+}
+.readout-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  padding: 0.3rem 0;
+  border-top: 1px solid rgba(234, 243, 236, 0.14);
+  color: rgba(234, 243, 236, 0.82);
+}
+
+/* ---------- Article prose ---------- */
+.prose-sf {
+  font-family: var(--font-serif);
+  font-size: 1.0625rem;
+  line-height: 1.68;
+  max-width: 66ch;
+  color: #22302a;
+}
+.prose-sf h2 {
+  font-family: var(--font-sans);
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 2.25rem 0 0.75rem;
+  color: var(--color-ink);
+}
+.prose-sf h3 {
+  font-family: var(--font-sans);
+  font-size: 1.0rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.5rem;
+}
+.prose-sf p { margin: 0 0 1rem; }
+.prose-sf ul, .prose-sf ol { margin: 0 0 1rem 1.15rem; }
+.prose-sf li { margin-bottom: 0.4rem; }
+.prose-sf table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  margin: 0 0 1.25rem;
+}
+.prose-sf th, .prose-sf td {
+  border: 1px solid var(--color-rule);
+  padding: 0.4rem 0.55rem;
+  text-align: left;
+}
+.prose-sf th { background: #e9ede7; font-weight: 600; }
+
+.formula {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  background: #e9ede7;
+  border-left: 3px solid var(--color-plotter);
+  padding: 0.6rem 0.85rem;
+  margin: 0 0 1.15rem;
+  overflow-x: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
