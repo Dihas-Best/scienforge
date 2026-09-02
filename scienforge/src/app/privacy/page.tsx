@@ -58,8 +58,7 @@ export default function Privacy() {
 
         <h2>Contact</h2>
         <p>
-          Replace this paragraph with an email address people can use to reach you about
-          privacy questions. AdSense requires a working contact route.
+          Please Contact +94 770625232 for any discrepancies.
         </p>
       </div>
     </div>
