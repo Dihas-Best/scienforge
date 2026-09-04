@@ -1,9 +1,6 @@
 export const SITE = {
   name: "ScienForge",
-  tagline: "Calculators and reference for physics, electronics and chemistry",
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://scienforge.com",
-  // Blank until AdSense approves the domain. Set in Vercel env vars.
-  adsenseClient: process.env.NEXT_PUBLIC_ADSENSE_CLIENT || "",
+  tagline: "Free Calculators & Explanations",
+  url: "https://scienforge.com",
+  adsenseClient: "ca-pub-9110644120668325", // Added your publisher ID here
 };
-
-export const adsEnabled = Boolean(SITE.adsenseClient);
