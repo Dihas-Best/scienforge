@@ -994,4 +994,3 @@ export const wireGauge = makeTool({
     </>
   ),
 });
-});
