@@ -7,7 +7,8 @@ export type CategoryId =
   | "math"
   | "converters"
   | "health"
-  | "finance";
+  | "finance"
+  | "everyday";
 
 export type Category = {
   id: CategoryId;
@@ -80,6 +81,12 @@ export const CATEGORIES: Category[] = [
     name: "Finance",
     blurb: "Interest, loans and savings growth over time.",
     groups: ["Interest and growth", "Borrowing"],
+  },
+  {
+    id: "everyday",
+    name: "Everyday tools",
+    blurb: "Dates, study tools and small utilities that do not belong anywhere else.",
+    groups: ["Dates and time", "Study tools", "Tech and security"],
   },
 ];
 
