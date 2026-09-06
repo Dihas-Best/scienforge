@@ -647,6 +647,36 @@ export const MANIFEST: ToolMeta[] = [
     ],
     "related": []
   },
+    {
+    "slug": "gcf-lcm",
+    "category": "math",
+    "group": "Number tools",
+    "title": "GCF and LCM calculator",
+    "label": "GCF and LCM",
+    "description": "Find the greatest common factor and least common multiple of up to four whole numbers, with the prime factorisation of each.",
+    "keywords": ["gcf", "gcd", "lcm", "greatest common factor", "least common multiple", "highest common factor"],
+    "related": ["prime-factorisation"]
+  },
+  {
+    "slug": "prime-factorisation",
+    "category": "math",
+    "group": "Number tools",
+    "title": "Prime factorisation and prime checker",
+    "label": "Prime factorisation",
+    "description": "Break any whole number into its prime factors, check whether it is prime, and list all of its divisors.",
+    "keywords": ["prime factorisation", "prime factors", "is it prime", "divisors", "factor tree"],
+    "related": ["gcf-lcm"]
+  },
+  {
+    "slug": "scientific-notation",
+    "category": "math",
+    "group": "Number tools",
+    "title": "Scientific notation converter",
+    "label": "Scientific notation",
+    "description": "Convert between decimal, scientific notation, engineering notation and E-notation, with significant figure counting.",
+    "keywords": ["scientific notation", "standard form", "engineering notation", "e notation", "significant figures"],
+    "related": []
+  },
   {
     "slug": "quadratic-equation",
     "category": "math",
