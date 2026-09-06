@@ -43,7 +43,7 @@ export const TOOLS: Tool[] = [
 
   projectileMotion, phys.newtonsSecondLaw, phys.kineticEnergy, phys.momentum,
   phys.circularMotion, phys.pendulum, phys.waveSpeed, phys.lensEquation,
-  phys.escapeVelocity, phys.density,
+  phys.escapeVelocity, phys.density, phys.specificHeat,
 
   molarity, chem.idealGas, chem.phCalc, chem.dilution, chem.halfLife,
 
