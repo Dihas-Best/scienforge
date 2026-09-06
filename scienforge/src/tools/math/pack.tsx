@@ -481,3 +481,128 @@ export const primeFactorisation = makeTool({
         and the private key is the pair of factors. If someone found a fast factorisation
         algorithm, most of the internet&rsquo;s encryption would fall over — which is also why
         quantum computing attracts so much attention, since Shor&rsquo;s algorithm factors
+        efficiently on hardware that does not yet exist at the necessary scale.
+      </p>
+
+      <h2>Useful facts about primes</h2>
+      <ul>
+        <li>2 is the only even prime. Every other even number has 2 as a factor.</li>
+        <li>1 is not prime, by definition — including it would break the uniqueness of factorisation.</li>
+        <li>There are infinitely many primes, proved by Euclid around 300 BC.</li>
+        <li>Primes thin out but never stop; near a large number n, roughly 1 in ln(n) integers is prime.</li>
+      </ul>
+    </>
+  ),
+});
+
+/* ------------------------------------------------------------------ */
+export const scientificNotation = makeTool({
+  slug: "scientific-notation",
+  category: "math",
+  group: "Number tools",
+  title: "Scientific notation converter",
+  label: "Scientific notation",
+  description:
+    "Convert between decimal, scientific notation, engineering notation and E-notation, with significant figure counting.",
+  keywords: ["scientific notation", "standard form", "engineering notation", "e notation", "significant figures"],
+  columns: 2,
+  inputs: [
+    { key: "v", label: "Number", initial: "0.00045678", hint: "Accepts 4.5e-4, 45678, 4k7 and so on" },
+    { key: "sf", label: "Round to significant figures", initial: "4", optional: true },
+  ],
+  compute: ({ n }) => {
+    if (!Number.isFinite(n.v) || n.v === 0) {
+      if (n.v === 0) {
+        return { name: "Scientific notation", value: "0 × 10⁰", rows: [{ label: "Zero", value: "Has no exponent form" }] };
+      }
+      return null;
+    }
+    const sf = Number.isFinite(n.sf) && n.sf >= 1 && n.sf <= 15 ? Math.round(n.sf) : 6;
+    const exp = Math.floor(Math.log10(Math.abs(n.v)));
+    const mantissa = n.v / 10 ** exp;
+    const engExp = Math.floor(exp / 3) * 3;
+    const engMant = n.v / 10 ** engExp;
+    const sup = (e: number) =>
+      String(e).replace(/-/g, "⁻").replace(/[0-9]/g, (d) => "⁰¹²³⁴⁵⁶⁷⁸⁹"[Number(d)]);
+    const prefixes: Record<number, string> = {
+      [-12]: "pico", [-9]: "nano", [-6]: "micro", [-3]: "milli", 0: "—",
+      3: "kilo", 6: "mega", 9: "giga", 12: "tera",
+    };
+    return {
+      name: "Scientific notation",
+      value: `${trim(mantissa, sf)} × 10${sup(exp)}`,
+      rows: [
+        { label: "Engineering notation", value: `${trim(engMant, sf)} × 10${sup(engExp)}` },
+        { label: "SI prefix", value: prefixes[engExp] ?? "outside the common range" },
+        { label: "E-notation", value: n.v.toExponential(sf - 1) },
+        { label: "Decimal form", value: trim(n.v, 15) },
+        { label: `Rounded to ${sf} s.f.`, value: String(Number(n.v.toPrecision(sf))) },
+        { label: "Order of magnitude", value: String(exp) },
+      ],
+    };
+  },
+  Article: () => (
+    <>
+      <p>
+        Scientific notation writes any number as a value between 1 and 10 multiplied by a power
+        of ten. It keeps very large and very small quantities readable and makes the precision
+        of a measurement explicit.
+      </p>
+      <Formula>0.00045678 = 4.5678 × 10⁻⁴</Formula>
+      <p>
+        The exponent counts how many places the decimal point moved. Moving it right gives a
+        negative exponent, moving it left a positive one. The mantissa always has exactly one
+        non-zero digit before the point.
+      </p>
+
+      <h2>Engineering notation</h2>
+      <p>
+        A variant that restricts exponents to multiples of three, so the mantissa runs from 1 to
+        1000 rather than 1 to 10. This exists because it maps directly onto SI prefixes.
+        4.5678 × 10⁻⁴ becomes 456.78 × 10⁻⁶, which is 456.78 microunits — immediately readable
+        to anyone working with components.
+      </p>
+      <table>
+        <thead><tr><th>Exponent</th><th>Prefix</th><th>Symbol</th></tr></thead>
+        <tbody>
+          <tr><td>10¹²</td><td>tera</td><td>T</td></tr>
+          <tr><td>10⁹</td><td>giga</td><td>G</td></tr>
+          <tr><td>10⁶</td><td>mega</td><td>M</td></tr>
+          <tr><td>10³</td><td>kilo</td><td>k</td></tr>
+          <tr><td>10⁻³</td><td>milli</td><td>m</td></tr>
+          <tr><td>10⁻⁶</td><td>micro</td><td>µ</td></tr>
+          <tr><td>10⁻⁹</td><td>nano</td><td>n</td></tr>
+          <tr><td>10⁻¹²</td><td>pico</td><td>p</td></tr>
+        </tbody>
+      </table>
+
+      <h2>E-notation</h2>
+      <p>
+        Calculators and programming languages write 4.5678 × 10⁻⁴ as <code>4.5678e-4</code>,
+        because superscripts are awkward in plain text. It means exactly the same thing. Note
+        that <code>e</code> here is unrelated to Euler&rsquo;s number.
+      </p>
+
+      <h2>Significant figures</h2>
+      <p>
+        Scientific notation resolves an ambiguity that plain decimals cannot. Written as 4500,
+        it is unclear whether the trailing zeros are measured or merely placeholders. Written as
+        4.5 × 10³ it clearly carries two significant figures; as 4.500 × 10³, four.
+      </p>
+      <p>
+        The rules for counting: all non-zero digits count; zeros between non-zero digits count;
+        leading zeros never count; trailing zeros count only after a decimal point. So 0.00320
+        has three significant figures — the two leading zeros are placeholders, the trailing one
+        is real.
+      </p>
+
+      <h2>Arithmetic shortcuts</h2>
+      <p>
+        Multiplying means multiplying mantissas and adding exponents; dividing means dividing
+        mantissas and subtracting exponents. This is often faster mentally than the decimal
+        version, and it makes order-of-magnitude estimation easy — a skill worth more in physics
+        than exact arithmetic, since it tells you within seconds whether an answer is plausible.
+      </p>
+    </>
+  ),
+});
