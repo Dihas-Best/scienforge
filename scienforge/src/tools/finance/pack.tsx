@@ -120,3 +120,108 @@ export const loanPayment = makeTool({
     </>
   ),
 });
+
+/* ------------------------------------------------------------------ */
+export const simpleInterest = makeTool({
+  slug: "simple-interest",
+  category: "finance",
+  group: "Interest and growth",
+  title: "Simple interest calculator",
+  label: "Simple interest",
+  description:
+    "Calculate simple interest on a loan or investment, with the total amount owed or earned over the term.",
+  keywords: ["simple interest", "interest calculator", "principal and interest", "simple interest formula"],
+  related: ["compound-interest"],
+  columns: 3,
+  inputs: [
+    { key: "p", label: "Principal", initial: "1000" },
+    { key: "r", label: "Annual interest rate", unit: "%", initial: "5" },
+    { key: "t", label: "Time period", unit: "years", initial: "3" },
+  ],
+  compute: ({ n }) => {
+    if (!(n.p > 0) || !Number.isFinite(n.r) || !(n.t > 0)) return null;
+    const interest = (n.p * n.r * n.t) / 100;
+    const total = n.p + interest;
+    const monthlyEquivalent = interest / (n.t * 12);
+    return {
+      name: "Total interest",
+      value: money(interest),
+      rows: [
+        { label: "Total amount", value: money(total) },
+        { label: "Original principal", value: money(n.p) },
+        { label: "Average interest per month", value: money(monthlyEquivalent) },
+        { label: "Average interest per year", value: money(interest / n.t) },
+      ],
+      note: "Amounts are in the same currency you entered. Simple interest accrues only on the original principal, never on previously earned interest.",
+    };
+  },
+  Article: () => (
+    <>
+      <p>
+        Simple interest grows in a straight line: the same fixed amount is earned or owed
+        every period, calculated only on the original principal. It never compounds — the
+        interest earned in year one does not itself earn interest in year two.
+      </p>
+      <Formula>I = P × r × t</Formula>
+      <p>
+        P is the principal, r is the annual interest rate as a decimal, and t is time in
+        years. Multiply the three together and the result is the total interest — not the
+        total amount owed, which is principal plus interest.
+      </p>
+
+      <h2>Working through an example</h2>
+      <p>
+        $1,000 at 5% simple interest for 3 years: I = 1000 × 0.05 × 3 = $150 in interest,
+        for a total of $1,150. Every year contributes exactly $50, because each
+        year&rsquo;s interest is calculated on the same unchanging $1,000 — not on the
+        growing balance.
+      </p>
+
+      <h2>Simple interest versus compound interest</h2>
+      <p>
+        Compound interest calculates each period&rsquo;s interest on the current balance,
+        which includes all previously earned interest — so the amount earned grows every
+        period. Simple interest stays flat. Over short periods the difference is small; over
+        long ones it becomes substantial. The same $1,000 at 5% for 20 years earns $1,000 in
+        simple interest (doubling the principal) but $1,653 in interest compounded annually
+        — the compounding adds an extra 65% on top of the simple case.
+      </p>
+
+      <h2>Where simple interest actually appears</h2>
+      <p>
+        Despite compounding being more common in savings and investment products, simple
+        interest still shows up in specific places:
+      </p>
+      <ul>
+        <li>
+          <strong>Short-term loans.</strong> Many personal and auto loans use simple
+          interest calculated on the remaining principal, recalculated each payment period.
+        </li>
+        <li>
+          <strong>Bonds.</strong> Many bonds pay a fixed coupon calculated as simple
+          interest on the face value, paid out rather than reinvested automatically.
+        </li>
+        <li>
+          <strong>Certain promissory notes and private loans</strong> between individuals,
+          where the simplicity of the calculation is itself a feature.
+        </li>
+        <li>
+          <strong>Educational examples.</strong> Because the arithmetic is linear, simple
+          interest is the standard starting point for teaching the concept of interest
+          before introducing compounding.
+        </li>
+      </ul>
+
+      <h2>A subtlety with loan repayments</h2>
+      <p>
+        On a simple-interest loan being paid down over time, interest is typically
+        recalculated each period on the remaining balance — not the original principal —
+        which means the interest portion of each payment shrinks over the life of the loan
+        even though the rate never changes. This calculator assumes a lump-sum principal
+        outstanding for the whole term, which suits a single deposit or a bond, but not an
+        amortizing loan with regular payments; for that, use a loan payment or amortization
+        calculator instead.
+      </p>
+    </>
+  ),
+});
