@@ -89,7 +89,48 @@ export const MANIFEST: ToolMeta[] = [
       "carbon dating",
       "exponential decay"
     ],
-    "related": []
+    "related": [
+      "molarity",
+      "dilution"
+    ]
+  },
+  {
+    "slug": "molar-mass",
+    "category": "chemistry",
+    "group": "Reactions",
+    "title": "Molar mass calculator",
+    "label": "Molar mass",
+    "description": "Find the molar mass of a chemical compound from its formula, with the percentage composition of every element shown.",
+    "keywords": [
+      "molar mass",
+      "molecular weight",
+      "molecular mass",
+      "formula weight",
+      "chemical formula calculator"
+    ],
+    "related": [
+      "molarity",
+      "dilution"
+    ]
+  },
+  {
+    "slug": "limiting-reagent",
+    "category": "chemistry",
+    "group": "Reactions",
+    "title": "Limiting reagent and percent yield calculator",
+    "label": "Limiting reagent",
+    "description": "Find which reactant runs out first in a reaction, the theoretical yield of product, and the percent yield from an actual result.",
+    "keywords": [
+      "limiting reagent",
+      "limiting reactant",
+      "percent yield",
+      "theoretical yield",
+      "excess reagent"
+    ],
+    "related": [
+      "molar-mass",
+      "molarity"
+    ]
   },
   {
     "slug": "number-base-converter",
@@ -557,7 +598,9 @@ export const MANIFEST: ToolMeta[] = [
       "apy",
       "future value"
     ],
-    "related": []
+    "related": [
+      "compound-interest"
+    ]
   },
   {
     "slug": "loan-payment",
@@ -573,7 +616,26 @@ export const MANIFEST: ToolMeta[] = [
       "monthly payment",
       "interest"
     ],
-    "related": []
+    "related": [
+      "compound-interest"
+    ]
+  },
+  {
+    "slug": "simple-interest",
+    "category": "finance",
+    "group": "Interest and growth",
+    "title": "Simple interest calculator",
+    "label": "Simple interest",
+    "description": "Calculate simple interest on a loan or investment, with the total amount owed or earned over the term.",
+    "keywords": [
+      "simple interest",
+      "interest calculator",
+      "principal and interest",
+      "simple interest formula"
+    ],
+    "related": [
+      "compound-interest"
+    ]
   },
   {
     "slug": "bmi",
