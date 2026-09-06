@@ -270,3 +270,214 @@ export const logarithm = makeTool({
     </>
   ),
 });
+
+/* ------------------------------------------------------------------ */
+export const gcfLcm = makeTool({
+  slug: "gcf-lcm",
+  category: "math",
+  group: "Number tools",
+  title: "GCF and LCM calculator",
+  label: "GCF and LCM",
+  description:
+    "Find the greatest common factor and least common multiple of up to four whole numbers, with the prime factorisation of each.",
+  keywords: ["gcf", "gcd", "lcm", "greatest common factor", "least common multiple", "highest common factor"],
+  related: ["prime-factorisation"],
+  columns: 4,
+  inputs: [
+    { key: "a", label: "First number", initial: "48" },
+    { key: "b", label: "Second number", initial: "180" },
+    { key: "c", label: "Third number", initial: "", optional: true },
+    { key: "d", label: "Fourth number", initial: "", optional: true },
+  ],
+  compute: ({ n }) => {
+    const nums = [n.a, n.b, n.c, n.d]
+      .filter((x) => Number.isFinite(x) && x > 0 && Number.isInteger(x) && x <= 1e12);
+    if (nums.length < 2) return null;
+    const gcd2 = (x: number, y: number): number => (y === 0 ? x : gcd2(y, x % y));
+    const gcf = nums.reduce((a, b) => gcd2(a, b));
+    const lcm = nums.reduce((a, b) => (a / gcd2(a, b)) * b);
+    const factor = (v: number) => {
+      const parts: string[] = [];
+      let x = v;
+      for (let p = 2; p * p <= x; p++) {
+        let e = 0;
+        while (x % p === 0) { x /= p; e++; }
+        if (e) parts.push(e === 1 ? `${p}` : `${p}^${e}`);
+      }
+      if (x > 1) parts.push(`${x}`);
+      return parts.join(" × ") || "1";
+    };
+    return {
+      name: "Greatest common factor",
+      value: String(gcf),
+      rows: [
+        { label: "Least common multiple", value: String(lcm) },
+        { label: "Coprime?", value: gcf === 1 ? "Yes" : "No" },
+        ...nums.map((v) => ({ label: `Factors of ${v}`, value: factor(v) })),
+        ...(nums.length === 2
+          ? [{ label: "Check: GCF × LCM", value: `${gcf * lcm} = ${nums[0]} × ${nums[1]}` }]
+          : []),
+      ],
+      note: "Whole positive numbers only.",
+    };
+  },
+  Article: () => (
+    <>
+      <p>
+        The greatest common factor is the largest number that divides every input exactly. The
+        least common multiple is the smallest number every input divides into. They are
+        opposite ends of the same idea, and both fall straight out of prime factorisation.
+      </p>
+
+      <h2>Through prime factors</h2>
+      <p>
+        Factor each number into primes. For the GCF take the <em>lowest</em> power of each
+        shared prime; for the LCM take the <em>highest</em> power of every prime that appears.
+      </p>
+      <Formula>
+        48 = 2⁴ × 3{"\n"}
+        180 = 2² × 3² × 5{"\n"}
+        GCF = 2² × 3 = 12{"\n"}
+        LCM = 2⁴ × 3² × 5 = 720
+      </Formula>
+
+      <h2>The Euclidean algorithm</h2>
+      <p>
+        Factorising is slow for large numbers. Euclid&rsquo;s method is far faster: divide the
+        larger by the smaller, keep the remainder, repeat until the remainder is zero. The last
+        non-zero remainder is the GCF.
+      </p>
+      <Formula>
+        180 ÷ 48 = 3 remainder 36{"\n"}
+        48 ÷ 36 = 1 remainder 12{"\n"}
+        36 ÷ 12 = 3 remainder 0&nbsp;&nbsp;→ GCF = 12
+      </Formula>
+      <p>
+        This is one of the oldest algorithms still in everyday use, dating to around 300 BC, and
+        it remains the method computers actually use. It is fast enough to handle numbers with
+        hundreds of digits.
+      </p>
+
+      <h2>The identity linking them</h2>
+      <Formula>GCF(a, b) × LCM(a, b) = a × b</Formula>
+      <p>
+        This holds for exactly two numbers and is the usual way to get the LCM: find the GCF by
+        Euclid, then divide the product by it. It fails for three or more, where you must chain
+        the operation pairwise instead.
+      </p>
+
+      <h2>Where they get used</h2>
+      <ul>
+        <li>
+          <strong>Simplifying fractions.</strong> Divide top and bottom by their GCF to reach
+          lowest terms in one step.
+        </li>
+        <li>
+          <strong>Adding fractions.</strong> The LCM of the denominators is the least common
+          denominator, which keeps the arithmetic as small as possible.
+        </li>
+        <li>
+          <strong>Repeating events.</strong> Two buses leaving every 12 and 18 minutes coincide
+          every LCM(12,18) = 36 minutes. Gear teeth, traffic lights and scheduling problems all
+          reduce to this.
+        </li>
+        <li>
+          <strong>Cryptography.</strong> Numbers whose GCF is 1 are coprime, and coprimality is
+          central to RSA and to modular arithmetic generally.
+        </li>
+      </ul>
+    </>
+  ),
+});
+
+/* ------------------------------------------------------------------ */
+export const primeFactorisation = makeTool({
+  slug: "prime-factorisation",
+  category: "math",
+  group: "Number tools",
+  title: "Prime factorisation and prime checker",
+  label: "Prime factorisation",
+  description:
+    "Break any whole number into its prime factors, check whether it is prime, and list all of its divisors.",
+  keywords: ["prime factorisation", "prime factors", "is it prime", "divisors", "factor tree"],
+  related: ["gcf-lcm"],
+  columns: 2,
+  inputs: [
+    { key: "v", label: "Number to factorise", initial: "5040", hint: "Whole numbers up to about 10^12" },
+  ],
+  compute: ({ n }) => {
+    if (!Number.isFinite(n.v) || !Number.isInteger(n.v) || n.v < 2 || n.v > 1e12) return null;
+    let x = n.v;
+    const fs: [number, number][] = [];
+    for (let p = 2; p * p <= x; p += p === 2 ? 1 : 2) {
+      let e = 0;
+      while (x % p === 0) { x /= p; e++; }
+      if (e) fs.push([p, e]);
+    }
+    if (x > 1) fs.push([x, 1]);
+    const pretty = fs.map(([p, e]) => (e === 1 ? `${p}` : `${p}^${e}`)).join(" × ");
+    const isPrime = fs.length === 1 && fs[0][1] === 1;
+    const divisorCount = fs.reduce((a, [, e]) => a * (e + 1), 1);
+    const divisorSum = fs.reduce((a, [p, e]) => a * ((p ** (e + 1) - 1) / (p - 1)), 1);
+    const rows = [
+      { label: "Prime?", value: isPrime ? "Yes" : "No" },
+      { label: "Distinct prime factors", value: String(fs.length) },
+      { label: "Number of divisors", value: String(divisorCount) },
+      { label: "Sum of divisors", value: trim(divisorSum, 12) },
+    ];
+    if (divisorCount <= 40) {
+      const divs: number[] = [];
+      for (let d = 1; d * d <= n.v; d++) {
+        if (n.v % d === 0) { divs.push(d); if (d !== n.v / d) divs.push(n.v / d); }
+      }
+      divs.sort((a, b) => a - b);
+      rows.push({ label: "All divisors", value: divs.join(", ") });
+    }
+    return { name: "Prime factorisation", value: pretty, rows };
+  },
+  Article: () => (
+    <>
+      <p>
+        Every whole number greater than 1 is either prime, or can be written as a product of
+        primes in exactly one way. That uniqueness is the fundamental theorem of arithmetic,
+        and it is why primes are called the building blocks of the integers.
+      </p>
+
+      <h2>Trial division</h2>
+      <p>
+        Divide by 2 as often as it goes, then 3, then 5, and so on upward. You only ever need to
+        test up to the square root of what remains: if a number has a factor larger than its
+        square root, the matching cofactor is smaller than the square root and you would have
+        found it already.
+      </p>
+      <Formula>
+        5040 ÷ 2 = 2520 ÷ 2 = 1260 ÷ 2 = 630 ÷ 2 = 315{"\n"}
+        315 ÷ 3 = 105 ÷ 3 = 35{"\n"}
+        35 ÷ 5 = 7,&nbsp;&nbsp;7 is prime{"\n"}
+        5040 = 2⁴ × 3² × 5 × 7
+      </Formula>
+
+      <h2>Counting divisors without listing them</h2>
+      <p>
+        Once you have the factorisation, the number of divisors follows immediately. If
+        n = p₁^a × p₂^b × …, then each divisor picks an exponent from 0 to a for the first
+        prime, 0 to b for the second, and so on:
+      </p>
+      <Formula>d(n) = (a + 1)(b + 1)(c + 1) …</Formula>
+      <p>
+        For 5040 = 2⁴ × 3² × 5 × 7 that gives 5 × 3 × 2 × 2 = 60 divisors. Listing them by hand
+        would take a while; the factorisation gives it in one line.
+      </p>
+
+      <h2>Why this is computationally hard</h2>
+      <p>
+        Checking whether a number is prime is fast. Actually factorising a large one is not, and
+        no efficient general algorithm is known. Trial division on a 600-digit number would
+        outlast the universe.
+      </p>
+      <p>
+        RSA encryption rests entirely on this asymmetry. Multiplying two large primes is
+        instant; recovering them from the product is infeasible. The public key is the product,
+        and the private key is the pair of factors. If someone found a fast factorisation
+        algorithm, most of the internet&rsquo;s encryption would fall over — which is also why
+        quantum computing attracts so much attention, since Shor&rsquo;s algorithm factors
