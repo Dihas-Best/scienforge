@@ -26,7 +26,16 @@ export type SelectInput = {
   hint?: string;
 };
 
-export type ToolInput = NumberInput | SelectInput;
+export type DateInput = {
+  kind: "date";
+  key: string;
+  label: string;
+  initial: string;
+  hint?: string;
+  optional?: boolean;
+};
+
+export type ToolInput = NumberInput | SelectInput | DateInput;
 
 export type Result = {
   /** Big headline number, already formatted with its unit. */
@@ -75,7 +84,7 @@ export function makeTool(spec: Spec): Tool {
       const s: Record<string, string> = {};
       for (const i of inputs) {
         s[i.key] = values[i.key] ?? "";
-        if (i.kind !== "select") n[i.key] = parseEng(values[i.key] ?? "");
+        if (i.kind !== "select" && i.kind !== "date") n[i.key] = parseEng(values[i.key] ?? "");
       }
       try {
         return compute({ n, s });
@@ -91,7 +100,23 @@ export function makeTool(spec: Spec): Tool {
       <div>
         <div className={`grid gap-4 sm:grid-cols-2 ${colClass}`}>
           {inputs.map((input) =>
-            input.kind === "select" ? (
+            input.kind === "date" ? (
+              <div key={input.key}>
+                <label className="field-label" htmlFor={`f-${input.key}`}>
+                  {input.label}
+                </label>
+                <input
+                  id={`f-${input.key}`}
+                  type="date"
+                  className="field-input"
+                  value={values[input.key]}
+                  onChange={(e) => set(input.key)(e.target.value)}
+                />
+                {input.hint ? (
+                  <p className="mt-1 text-xs text-ink-soft">{input.hint}</p>
+                ) : null}
+              </div>
+            ) : input.kind === "select" ? (
               <div key={input.key}>
                 <label className="field-label" htmlFor={`f-${input.key}`}>
                   {input.label}
