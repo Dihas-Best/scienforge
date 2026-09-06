@@ -344,7 +344,10 @@ export const MANIFEST: ToolMeta[] = [
       "secondary",
       "step down"
     ],
-    "related": []
+    "related": [
+      "voltage-drop",
+      "ohms-law"
+    ]
   },
   {
     "slug": "decibel-converter",
@@ -361,17 +364,30 @@ export const MANIFEST: ToolMeta[] = [
       "voltage ratio",
       "gain"
     ],
-    "related": []
+    "related": [
+      "voltage-drop",
+      "ohms-law"
+    ]
   },
-    {
+  {
     "slug": "wire-gauge-awg",
     "category": "electronics",
     "group": "Power and thermal",
     "title": "Wire gauge (AWG) calculator",
     "label": "Wire gauge (AWG)",
     "description": "Convert AWG to diameter and cross-sectional area, and check the resistance and current capacity of a given length of copper wire.",
-    "keywords": ["awg", "wire gauge", "wire size", "ampacity", "copper wire", "current capacity"],
-    "related": ["voltage-drop", "ohms-law"]
+    "keywords": [
+      "awg",
+      "wire gauge",
+      "wire size",
+      "ampacity",
+      "copper wire",
+      "current capacity"
+    ],
+    "related": [
+      "voltage-drop",
+      "ohms-law"
+    ]
   },
   {
     "slug": "voltage-drop",
@@ -380,8 +396,17 @@ export const MANIFEST: ToolMeta[] = [
     "title": "Voltage drop calculator",
     "label": "Voltage drop",
     "description": "Work out how much voltage a cable run loses, as a value and as a percentage of the supply, for copper or aluminium conductors.",
-    "keywords": ["voltage drop", "cable run", "wire loss", "cable sizing", "line loss"],
-    "related": ["wire-gauge-awg", "ohms-law"]
+    "keywords": [
+      "voltage drop",
+      "cable run",
+      "wire loss",
+      "cable sizing",
+      "line loss"
+    ],
+    "related": [
+      "wire-gauge-awg",
+      "ohms-law"
+    ]
   },
   {
     "slug": "capacitor-charge-time",
@@ -390,8 +415,17 @@ export const MANIFEST: ToolMeta[] = [
     "title": "Capacitor charge and discharge time calculator",
     "label": "Capacitor charge time",
     "description": "Find the voltage on a capacitor after a given time, or the time needed to reach a target voltage, through a series resistor.",
-    "keywords": ["capacitor charge", "discharge time", "rc charging", "time constant", "tau"],
-    "related": ["rc-time-constant", "rc-filter-cutoff"]
+    "keywords": [
+      "capacitor charge",
+      "discharge time",
+      "rc charging",
+      "time constant",
+      "tau"
+    ],
+    "related": [
+      "rc-time-constant",
+      "rc-filter-cutoff"
+    ]
   },
   {
     "slug": "resistor-colour-code",
@@ -430,6 +464,84 @@ export const MANIFEST: ToolMeta[] = [
       "ohms-law",
       "resistor-colour-code"
     ]
+  },
+  {
+    "slug": "ip-subnet",
+    "category": "everyday",
+    "group": "Tech and security",
+    "title": "IP subnet calculator",
+    "label": "IP subnet",
+    "description": "Find the network address, broadcast address, usable host range and subnet mask for an IPv4 address and CIDR prefix.",
+    "keywords": [
+      "ip subnet",
+      "subnet calculator",
+      "cidr",
+      "network address",
+      "subnet mask",
+      "broadcast address"
+    ],
+    "related": []
+  },
+  {
+    "slug": "age-calculator",
+    "category": "everyday",
+    "group": "Dates and time",
+    "title": "Age calculator",
+    "label": "Age calculator",
+    "description": "Find exact age in years, months and days from a birth date, plus days until the next birthday and total days lived.",
+    "keywords": [
+      "age calculator",
+      "how old am i",
+      "birthday calculator",
+      "date of birth"
+    ],
+    "related": []
+  },
+  {
+    "slug": "date-calculator",
+    "category": "everyday",
+    "group": "Dates and time",
+    "title": "Date calculator — add or subtract days",
+    "label": "Date calculator",
+    "description": "Add or subtract a number of days, weeks or months from a date, or find the number of days between two dates.",
+    "keywords": [
+      "date calculator",
+      "days between dates",
+      "add days to date",
+      "date difference"
+    ],
+    "related": []
+  },
+  {
+    "slug": "gpa-calculator",
+    "category": "everyday",
+    "group": "Study tools",
+    "title": "GPA calculator",
+    "label": "GPA calculator",
+    "description": "Calculate your grade point average on the standard 4.0 scale from letter grades and credit hours for up to six courses.",
+    "keywords": [
+      "gpa calculator",
+      "grade point average",
+      "4.0 scale",
+      "college gpa",
+      "semester gpa"
+    ],
+    "related": []
+  },
+  {
+    "slug": "password-generator",
+    "category": "everyday",
+    "group": "Tech and security",
+    "title": "Password generator",
+    "label": "Password generator",
+    "description": "Generate a random password of a chosen length using your browser's cryptographic random number generator, with an estimate of how hard it is to guess.",
+    "keywords": [
+      "password generator",
+      "random password",
+      "strong password",
+      "secure password"
+    ],
+    "related": []
   },
   {
     "slug": "compound-interest",
@@ -561,7 +673,9 @@ export const MANIFEST: ToolMeta[] = [
       "increase",
       "decrease"
     ],
-    "related": []
+    "related": [
+      "prime-factorisation"
+    ]
   },
   {
     "slug": "right-triangle",
@@ -577,7 +691,9 @@ export const MANIFEST: ToolMeta[] = [
       "trigonometry",
       "sohcahtoa"
     ],
-    "related": []
+    "related": [
+      "prime-factorisation"
+    ]
   },
   {
     "slug": "circle",
@@ -595,7 +711,9 @@ export const MANIFEST: ToolMeta[] = [
       "arc length",
       "sector"
     ],
-    "related": []
+    "related": [
+      "prime-factorisation"
+    ]
   },
   {
     "slug": "standard-deviation",
@@ -611,7 +729,9 @@ export const MANIFEST: ToolMeta[] = [
       "median",
       "statistics"
     ],
-    "related": []
+    "related": [
+      "prime-factorisation"
+    ]
   },
   {
     "slug": "permutations-combinations",
@@ -628,7 +748,9 @@ export const MANIFEST: ToolMeta[] = [
       "factorial",
       "binomial"
     ],
-    "related": []
+    "related": [
+      "prime-factorisation"
+    ]
   },
   {
     "slug": "logarithm",
@@ -645,17 +767,28 @@ export const MANIFEST: ToolMeta[] = [
       "natural log",
       "antilog"
     ],
-    "related": []
+    "related": [
+      "prime-factorisation"
+    ]
   },
-    {
+  {
     "slug": "gcf-lcm",
     "category": "math",
     "group": "Number tools",
     "title": "GCF and LCM calculator",
     "label": "GCF and LCM",
     "description": "Find the greatest common factor and least common multiple of up to four whole numbers, with the prime factorisation of each.",
-    "keywords": ["gcf", "gcd", "lcm", "greatest common factor", "least common multiple", "highest common factor"],
-    "related": ["prime-factorisation"]
+    "keywords": [
+      "gcf",
+      "gcd",
+      "lcm",
+      "greatest common factor",
+      "least common multiple",
+      "highest common factor"
+    ],
+    "related": [
+      "prime-factorisation"
+    ]
   },
   {
     "slug": "prime-factorisation",
@@ -664,8 +797,16 @@ export const MANIFEST: ToolMeta[] = [
     "title": "Prime factorisation and prime checker",
     "label": "Prime factorisation",
     "description": "Break any whole number into its prime factors, check whether it is prime, and list all of its divisors.",
-    "keywords": ["prime factorisation", "prime factors", "is it prime", "divisors", "factor tree"],
-    "related": ["gcf-lcm"]
+    "keywords": [
+      "prime factorisation",
+      "prime factors",
+      "is it prime",
+      "divisors",
+      "factor tree"
+    ],
+    "related": [
+      "gcf-lcm"
+    ]
   },
   {
     "slug": "scientific-notation",
@@ -674,7 +815,13 @@ export const MANIFEST: ToolMeta[] = [
     "title": "Scientific notation converter",
     "label": "Scientific notation",
     "description": "Convert between decimal, scientific notation, engineering notation and E-notation, with significant figure counting.",
-    "keywords": ["scientific notation", "standard form", "engineering notation", "e notation", "significant figures"],
+    "keywords": [
+      "scientific notation",
+      "standard form",
+      "engineering notation",
+      "e notation",
+      "significant figures"
+    ],
     "related": []
   },
   {
@@ -765,7 +912,9 @@ export const MANIFEST: ToolMeta[] = [
       "rpm",
       "g-force"
     ],
-    "related": []
+    "related": [
+      "thermal-expansion"
+    ]
   },
   {
     "slug": "simple-pendulum",
@@ -781,7 +930,9 @@ export const MANIFEST: ToolMeta[] = [
       "shm",
       "frequency"
     ],
-    "related": []
+    "related": [
+      "thermal-expansion"
+    ]
   },
   {
     "slug": "wave-speed",
@@ -797,7 +948,9 @@ export const MANIFEST: ToolMeta[] = [
       "v=fλ",
       "period"
     ],
-    "related": []
+    "related": [
+      "thermal-expansion"
+    ]
   },
   {
     "slug": "lens-equation",
@@ -813,7 +966,9 @@ export const MANIFEST: ToolMeta[] = [
       "image distance",
       "optics"
     ],
-    "related": []
+    "related": [
+      "thermal-expansion"
+    ]
   },
   {
     "slug": "escape-velocity",
@@ -829,7 +984,9 @@ export const MANIFEST: ToolMeta[] = [
       "gravity",
       "period"
     ],
-    "related": []
+    "related": [
+      "thermal-expansion"
+    ]
   },
   {
     "slug": "density",
@@ -845,27 +1002,46 @@ export const MANIFEST: ToolMeta[] = [
       "specific gravity",
       "buoyancy"
     ],
-    "related": []
+    "related": [
+      "thermal-expansion"
+    ]
   },
-    {
+  {
     "slug": "specific-heat",
     "category": "physics",
     "group": "Thermal and modern",
     "title": "Specific heat capacity calculator",
     "label": "Specific heat",
     "description": "Find the energy needed to change a substance's temperature, or solve for mass, temperature change or specific heat capacity.",
-    "keywords": ["specific heat", "heat capacity", "q=mcat", "thermal energy", "calorimetry"],
-    "related": ["thermal-expansion"]
+    "keywords": [
+      "specific heat",
+      "heat capacity",
+      "q=mcat",
+      "thermal energy",
+      "calorimetry"
+    ],
+    "related": [
+      "thermal-expansion"
+    ]
   },
-    {
+  {
     "slug": "hookes-law",
     "category": "physics",
     "group": "Mechanics",
     "title": "Hooke's law and spring constant calculator",
     "label": "Hooke's law",
     "description": "Relate force, spring constant and extension, with the elastic potential energy stored in the spring.",
-    "keywords": ["hookes law", "spring constant", "extension", "elastic energy", "f=kx"],
-    "related": ["simple-pendulum", "kinetic-energy"]
+    "keywords": [
+      "hookes law",
+      "spring constant",
+      "extension",
+      "elastic energy",
+      "f=kx"
+    ],
+    "related": [
+      "simple-pendulum",
+      "kinetic-energy"
+    ]
   },
   {
     "slug": "snells-law",
@@ -874,8 +1050,17 @@ export const MANIFEST: ToolMeta[] = [
     "title": "Snell's law and refraction calculator",
     "label": "Snell's law",
     "description": "Find the refraction angle as light crosses between two media, with the critical angle for total internal reflection.",
-    "keywords": ["snells law", "refraction", "refractive index", "critical angle", "total internal reflection"],
-    "related": ["lens-equation", "wave-speed"]
+    "keywords": [
+      "snells law",
+      "refraction",
+      "refractive index",
+      "critical angle",
+      "total internal reflection"
+    ],
+    "related": [
+      "lens-equation",
+      "wave-speed"
+    ]
   },
   {
     "slug": "thermal-expansion",
@@ -884,8 +1069,15 @@ export const MANIFEST: ToolMeta[] = [
     "title": "Thermal expansion calculator",
     "label": "Thermal expansion",
     "description": "Calculate how much a material lengthens or expands in volume for a given temperature change.",
-    "keywords": ["thermal expansion", "coefficient of expansion", "linear expansion", "expansion gap"],
-    "related": ["specific-heat"]
+    "keywords": [
+      "thermal expansion",
+      "coefficient of expansion",
+      "linear expansion",
+      "expansion gap"
+    ],
+    "related": [
+      "specific-heat"
+    ]
   },
   {
     "slug": "projectile-motion",
