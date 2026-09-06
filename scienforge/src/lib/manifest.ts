@@ -827,6 +827,36 @@ export const MANIFEST: ToolMeta[] = [
     "keywords": ["specific heat", "heat capacity", "q=mcat", "thermal energy", "calorimetry"],
     "related": ["thermal-expansion"]
   },
+    {
+    "slug": "hookes-law",
+    "category": "physics",
+    "group": "Mechanics",
+    "title": "Hooke's law and spring constant calculator",
+    "label": "Hooke's law",
+    "description": "Relate force, spring constant and extension, with the elastic potential energy stored in the spring.",
+    "keywords": ["hookes law", "spring constant", "extension", "elastic energy", "f=kx"],
+    "related": ["simple-pendulum", "kinetic-energy"]
+  },
+  {
+    "slug": "snells-law",
+    "category": "physics",
+    "group": "Waves and optics",
+    "title": "Snell's law and refraction calculator",
+    "label": "Snell's law",
+    "description": "Find the refraction angle as light crosses between two media, with the critical angle for total internal reflection.",
+    "keywords": ["snells law", "refraction", "refractive index", "critical angle", "total internal reflection"],
+    "related": ["lens-equation", "wave-speed"]
+  },
+  {
+    "slug": "thermal-expansion",
+    "category": "physics",
+    "group": "Thermal and modern",
+    "title": "Thermal expansion calculator",
+    "label": "Thermal expansion",
+    "description": "Calculate how much a material lengthens or expands in volume for a given temperature change.",
+    "keywords": ["thermal expansion", "coefficient of expansion", "linear expansion", "expansion gap"],
+    "related": ["specific-heat"]
+  },
   {
     "slug": "projectile-motion",
     "category": "physics",
