@@ -363,6 +363,36 @@ export const MANIFEST: ToolMeta[] = [
     ],
     "related": []
   },
+    {
+    "slug": "wire-gauge-awg",
+    "category": "electronics",
+    "group": "Power and thermal",
+    "title": "Wire gauge (AWG) calculator",
+    "label": "Wire gauge (AWG)",
+    "description": "Convert AWG to diameter and cross-sectional area, and check the resistance and current capacity of a given length of copper wire.",
+    "keywords": ["awg", "wire gauge", "wire size", "ampacity", "copper wire", "current capacity"],
+    "related": ["voltage-drop", "ohms-law"]
+  },
+  {
+    "slug": "voltage-drop",
+    "category": "electronics",
+    "group": "Power and thermal",
+    "title": "Voltage drop calculator",
+    "label": "Voltage drop",
+    "description": "Work out how much voltage a cable run loses, as a value and as a percentage of the supply, for copper or aluminium conductors.",
+    "keywords": ["voltage drop", "cable run", "wire loss", "cable sizing", "line loss"],
+    "related": ["wire-gauge-awg", "ohms-law"]
+  },
+  {
+    "slug": "capacitor-charge-time",
+    "category": "electronics",
+    "group": "Passive components",
+    "title": "Capacitor charge and discharge time calculator",
+    "label": "Capacitor charge time",
+    "description": "Find the voltage on a capacitor after a given time, or the time needed to reach a target voltage, through a series resistor.",
+    "keywords": ["capacitor charge", "discharge time", "rc charging", "time constant", "tau"],
+    "related": ["rc-time-constant", "rc-filter-cutoff"]
+  },
   {
     "slug": "resistor-colour-code",
     "category": "electronics",
