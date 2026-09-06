@@ -39,6 +39,7 @@ export const TOOLS: Tool[] = [
   elec.seriesParallel, elec.capacitorNetwork, elec.rcTimeConstant, elec.rcFilter,
   elec.lcResonance, elec.reactance, elec.opAmpGain, elec.timer555,
   elec.batteryLife, elec.transformerTurns, elec.decibels,
+  elec.wireGauge, elec.voltageDrop, elec.capacitorCharge,
 
   projectileMotion, phys.newtonsSecondLaw, phys.kineticEnergy, phys.momentum,
   phys.circularMotion, phys.pendulum, phys.waveSpeed, phys.lensEquation,
