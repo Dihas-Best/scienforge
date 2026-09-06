@@ -761,3 +761,357 @@ export const specificHeat = makeTool({
     </>
   ),
 });
+
+/* ------------------------------------------------------------------ */
+export const hookesLaw = makeTool({
+  slug: "hookes-law",
+  category: "physics",
+  group: "Mechanics",
+  title: "Hooke's law and spring constant calculator",
+  label: "Hooke's law",
+  description:
+    "Relate force, spring constant and extension, with the elastic potential energy stored in the spring.",
+  keywords: ["hookes law", "spring constant", "extension", "elastic energy", "f=kx"],
+  related: ["simple-pendulum", "kinetic-energy"],
+  columns: 3,
+  inputs: [
+    { key: "k", label: "Spring constant", unit: "N/m", initial: "200", optional: true },
+    { key: "x", label: "Extension", unit: "m", initial: "0.05", optional: true },
+    { key: "f", label: "Force applied", unit: "N", initial: "", optional: true },
+    { key: "m", label: "Mass on spring", unit: "kg", initial: "", optional: true },
+  ],
+  compute: ({ n }) => {
+    let k = n.k, x = n.x, f = n.f;
+    if (!Number.isFinite(f) && Number.isFinite(n.m) && n.m > 0) f = n.m * 9.80665;
+    const known = [k, x, f].filter(Number.isFinite).length;
+    if (known < 2) return null;
+    if (!Number.isFinite(f)) f = k * x;
+    else if (!Number.isFinite(x)) x = f / k;
+    else if (!Number.isFinite(k)) k = f / x;
+    if (!(k > 0) || !Number.isFinite(x)) return null;
+    const energy = 0.5 * k * x * x;
+    const rows = [
+      { label: "Spring constant", value: `${trim(k, 5)} N/m` },
+      { label: "Extension", value: `${trim(x, 5)} m (${trim(x * 1000, 5)} mm)` },
+      { label: "Elastic energy stored", value: `${trim(energy, 5)} J` },
+      { label: "Equivalent hanging mass", value: `${trim(f / 9.80665, 5)} kg` },
+    ];
+    if (k > 0 && Number.isFinite(n.m) && n.m > 0) {
+      const period = 2 * Math.PI * Math.sqrt(n.m / k);
+      rows.push({ label: "Oscillation period", value: `${trim(period, 5)} s` });
+      rows.push({ label: "Frequency", value: `${trim(1 / period, 5)} Hz` });
+    }
+    return { name: "Restoring force", value: `${trim(f, 5)} N`, rows };
+  },
+  Article: () => (
+    <>
+      <p>
+        Stretch a spring and it pulls back. Hooke&rsquo;s law says that pull is proportional
+        to how far you stretched it, at least while the deformation stays modest.
+      </p>
+      <Formula>F = −k x</Formula>
+      <p>
+        k is the spring constant in newtons per metre — a stiff spring has a large k. The
+        minus sign says the force opposes the displacement: pull the spring right and it pulls
+        left. When you are only after magnitudes the sign can be dropped, but it is what makes
+        the spring a restoring force and therefore what makes oscillation possible.
+      </p>
+
+      <h2>Energy stored</h2>
+      <p>
+        Because the force grows as you stretch, the work done is not simply force times
+        distance. Integrating F dx from 0 to x gives:
+      </p>
+      <Formula>E = ½ k x²</Formula>
+      <p>
+        The square matters. Stretching twice as far stores four times the energy. This is why
+        a slightly over-drawn bow or an over-compressed spring releases far more energy than
+        intuition suggests.
+      </p>
+
+      <h2>Springs in series and parallel</h2>
+      <p>
+        The arithmetic is the reverse of resistors, which catches people out. Springs side by
+        side share the load, so their constants add: k = k₁ + k₂. Springs end to end each
+        stretch under the full force, so they combine reciprocally: 1/k = 1/k₁ + 1/k₂. Two
+        identical springs in series make a system half as stiff and twice as extensible.
+      </p>
+
+      <h2>Oscillation</h2>
+      <p>
+        Hang a mass on a spring and release it, and it oscillates with period:
+      </p>
+      <Formula>T = 2π √(m/k)</Formula>
+      <p>
+        The amplitude does not appear — a large swing and a small swing take the same time.
+        This is simple harmonic motion, and it emerges from any restoring force proportional
+        to displacement, which is why the same mathematics describes pendulums, LC circuits
+        and vibrating molecules.
+      </p>
+
+      <h2>The elastic limit</h2>
+      <p>
+        Hooke&rsquo;s law is an approximation valid over a limited range. Stretch a spring
+        past its elastic limit and it deforms permanently — released, it no longer returns to
+        its original length, and k is no longer meaningful. Push further and it reaches the
+        breaking point.
+      </p>
+      <p>
+        Rubber is a useful counterexample: it stores and returns energy but is markedly
+        non-linear, with a force curve that stiffens sharply at high extension. Treating a
+        rubber band as a Hookean spring gives poor answers outside a narrow range.
+      </p>
+    </>
+  ),
+});
+
+/* ------------------------------------------------------------------ */
+export const snellsLaw = makeTool({
+  slug: "snells-law",
+  category: "physics",
+  group: "Waves and optics",
+  title: "Snell's law and refraction calculator",
+  label: "Snell's law",
+  description:
+    "Find the refraction angle as light crosses between two media, with the critical angle for total internal reflection.",
+  keywords: ["snells law", "refraction", "refractive index", "critical angle", "total internal reflection"],
+  related: ["lens-equation", "wave-speed"],
+  columns: 3,
+  inputs: [
+    { kind: "select", key: "m1", label: "From medium", initial: "1.000",
+      options: [
+        { value: "1.000", label: "Vacuum / air (1.00)" },
+        { value: "1.333", label: "Water (1.33)" },
+        { value: "1.520", label: "Crown glass (1.52)" },
+        { value: "1.460", label: "Fused silica (1.46)" },
+        { value: "1.490", label: "Acrylic (1.49)" },
+        { value: "2.417", label: "Diamond (2.42)" },
+      ] },
+    { kind: "select", key: "m2", label: "Into medium", initial: "1.520",
+      options: [
+        { value: "1.000", label: "Vacuum / air (1.00)" },
+        { value: "1.333", label: "Water (1.33)" },
+        { value: "1.520", label: "Crown glass (1.52)" },
+        { value: "1.460", label: "Fused silica (1.46)" },
+        { value: "1.490", label: "Acrylic (1.49)" },
+        { value: "2.417", label: "Diamond (2.42)" },
+      ] },
+    { key: "a1", label: "Angle of incidence", unit: "degrees", initial: "30",
+      hint: "Measured from the normal, not the surface" },
+  ],
+  compute: ({ n, s }) => {
+    const n1 = Number(s.m1), n2 = Number(s.m2);
+    if (!(n1 > 0) || !(n2 > 0) || !Number.isFinite(n.a1)) return null;
+    if (n.a1 < 0 || n.a1 >= 90) return null;
+    const rad = (n.a1 * Math.PI) / 180;
+    const sin2 = (n1 * Math.sin(rad)) / n2;
+    const c = 299792458;
+    const rows = [
+      { label: "Speed of light in first medium", value: `${trim(c / n1 / 1e6, 6)} × 10⁶ m/s` },
+      { label: "Speed of light in second medium", value: `${trim(c / n2 / 1e6, 6)} × 10⁶ m/s` },
+    ];
+    if (n2 < n1) {
+      const crit = (Math.asin(n2 / n1) * 180) / Math.PI;
+      rows.push({ label: "Critical angle", value: `${trim(crit, 5)}°` });
+    } else {
+      rows.push({ label: "Critical angle", value: "None — entering a denser medium" });
+    }
+    if (Math.abs(sin2) > 1) {
+      return {
+        name: "Total internal reflection",
+        value: "No refracted ray — all light reflects",
+        rows,
+        note: "The angle of incidence exceeds the critical angle, so light cannot cross the boundary and is entirely reflected back.",
+      };
+    }
+    const a2 = (Math.asin(sin2) * 180) / Math.PI;
+    return {
+      name: "Angle of refraction",
+      value: `${trim(a2, 5)}°`,
+      rows: [
+        { label: "Bent toward or away from normal", value: n2 > n1 ? "Toward the normal" : "Away from the normal" },
+        { label: "Deviation from original path", value: `${trim(Math.abs(n.a1 - a2), 5)}°` },
+        ...rows,
+      ],
+    };
+  },
+  Article: () => (
+    <>
+      <p>
+        Light changes direction when it crosses between materials in which it travels at
+        different speeds. Snell&rsquo;s law fixes exactly how much.
+      </p>
+      <Formula>n₁ sin θ₁ = n₂ sin θ₂</Formula>
+      <p>
+        Both angles are measured from the <em>normal</em> — the line perpendicular to the
+        surface — not from the surface itself. Getting this wrong is the most common error in
+        refraction problems, and it turns a 30° answer into a 60° one.
+      </p>
+
+      <h2>Refractive index</h2>
+      <p>
+        The refractive index n is the ratio of light&rsquo;s speed in vacuum to its speed in
+        the material, so n = c/v. Water&rsquo;s 1.33 means light travels at about 225,000 km/s
+        inside it. Index is always at least 1 for ordinary materials, and a higher index means
+        slower light and stronger bending.
+      </p>
+      <p>
+        Entering a denser medium bends light toward the normal; leaving into a thinner one
+        bends it away. This is why a straw in a glass of water appears broken at the surface,
+        and why a pool looks shallower than it is.
+      </p>
+
+      <h2>Total internal reflection</h2>
+      <p>
+        Going from dense to thin — glass to air, say — the refracted ray bends further from the
+        normal as the incident angle grows. At some angle it would need to exceed 90°, which is
+        impossible, so no light escapes at all. Everything reflects back inside.
+      </p>
+      <Formula>θ_c = arcsin(n₂ / n₁)</Formula>
+      <p>
+        For glass to air the critical angle is about 41°; for water to air, about 49°; for
+        diamond to air, only 24°. Diamond&rsquo;s unusually small critical angle traps light
+        through many internal bounces before it escapes, which is the origin of its brilliance.
+      </p>
+      <p>
+        Optical fibre is total internal reflection put to work: light enters at a shallow angle
+        and bounces along the core for kilometres with almost no loss, because at every bounce
+        it exceeds the critical angle.
+      </p>
+
+      <h2>Dispersion</h2>
+      <p>
+        Refractive index depends slightly on wavelength — blue light is bent more than red. A
+        single index, as used here, is an approximation for one colour. That small dependence
+        is what splits white light into a spectrum through a prism, and it produces rainbows
+        from raindrops. It is also a nuisance in lens design, where it causes chromatic
+        aberration and has to be corrected with multiple glass types.
+      </p>
+    </>
+  ),
+});
+
+/* ------------------------------------------------------------------ */
+export const thermalExpansion = makeTool({
+  slug: "thermal-expansion",
+  category: "physics",
+  group: "Thermal and modern",
+  title: "Thermal expansion calculator",
+  label: "Thermal expansion",
+  description:
+    "Calculate how much a material lengthens or expands in volume for a given temperature change.",
+  keywords: ["thermal expansion", "coefficient of expansion", "linear expansion", "expansion gap"],
+  related: ["specific-heat"],
+  columns: 3,
+  inputs: [
+    { key: "l", label: "Original length", unit: "m", initial: "10" },
+    { kind: "select", key: "mat", label: "Material", initial: "0.000023",
+      options: [
+        { value: "0.000023", label: "Aluminium (23 µm/m·K)" },
+        { value: "0.000017", label: "Copper (17 µm/m·K)" },
+        { value: "0.000012", label: "Steel (12 µm/m·K)" },
+        { value: "0.0000108", label: "Concrete (10.8 µm/m·K)" },
+        { value: "0.000009", label: "Glass, common (9 µm/m·K)" },
+        { value: "0.0000005", label: "Borosilicate (0.5 µm/m·K)" },
+        { value: "0.000029", label: "Lead (29 µm/m·K)" },
+        { value: "0.00007", label: "PVC (70 µm/m·K)" },
+      ] },
+    { key: "dt", label: "Temperature change", unit: "°C", initial: "40" },
+  ],
+  compute: ({ n, s }) => {
+    const alpha = Number(s.mat);
+    if (!(n.l > 0) || !Number.isFinite(n.dt) || !(alpha > 0)) return null;
+    const dL = alpha * n.l * n.dt;
+    const volFrac = 3 * alpha * n.dt;
+    return {
+      name: "Change in length",
+      value: `${trim(dL * 1000, 5)} mm`,
+      rows: [
+        { label: "New length", value: `${trim(n.l + dL, 8)} m` },
+        { label: "Fractional change", value: `${trim(alpha * n.dt * 100, 4)}%` },
+        { label: "Linear coefficient α", value: `${trim(alpha * 1e6, 4)} µm/m·K` },
+        { label: "Area change (2α)", value: `${trim(2 * alpha * n.dt * 100, 4)}%` },
+        { label: "Volume change (3α)", value: `${trim(volFrac * 100, 4)}%` },
+      ],
+      note: "Coefficients are approximate room-temperature values and drift with temperature. Negative ΔT gives contraction.",
+    };
+  },
+  Article: () => (
+    <>
+      <p>
+        Heat a solid and it grows. The atoms vibrate harder, and because the bond potential is
+        not symmetric, their average separation increases. Over ordinary temperature ranges the
+        effect is very close to linear.
+      </p>
+      <Formula>ΔL = α · L₀ · ΔT</Formula>
+      <p>
+        α is the coefficient of linear expansion, in units of 1/K, usually quoted as
+        micrometres per metre per kelvin. Steel&rsquo;s 12 µm/m·K means a 1 metre steel bar
+        grows 12 micrometres for each degree.
+      </p>
+
+      <h2>Area and volume</h2>
+      <p>
+        A plate expands in two directions and a solid in three, and to good approximation the
+        coefficients simply multiply: area expansion is 2α and volume expansion is 3α. So the
+        volume of an aluminium block grows about 0.007% per degree — small, but a 10,000 litre
+        tank of fluid warming 20 degrees is a real overflow problem.
+      </p>
+      <p>
+        A hole in a plate expands too, and it expands as though it were made of the same
+        material. This surprises people, but it follows from everything scaling uniformly.
+        It is why heating a metal lid loosens it from a jar.
+      </p>
+
+      <h2>Coefficients</h2>
+      <table>
+        <thead><tr><th>Material</th><th>α (µm/m·K)</th></tr></thead>
+        <tbody>
+          <tr><td>PVC</td><td>70</td></tr>
+          <tr><td>Lead</td><td>29</td></tr>
+          <tr><td>Aluminium</td><td>23</td></tr>
+          <tr><td>Copper</td><td>17</td></tr>
+          <tr><td>Steel</td><td>12</td></tr>
+          <tr><td>Concrete</td><td>10.8</td></tr>
+          <tr><td>Common glass</td><td>9</td></tr>
+          <tr><td>Borosilicate glass</td><td>0.5</td></tr>
+        </tbody>
+      </table>
+      <p>
+        Concrete and steel sit close together at 10.8 and 12, which is the quiet reason
+        reinforced concrete works at all. If the two expanded at noticeably different rates,
+        every temperature swing would crack the concrete away from its rebar.
+      </p>
+
+      <h2>Consequences worth knowing</h2>
+      <ul>
+        <li>
+          <strong>Expansion joints.</strong> Bridges and rail track need gaps. A 100 m steel
+          span moving through 50 °C changes length by 60 mm — enough to buckle track that has
+          nowhere to go.
+        </li>
+        <li>
+          <strong>Thermal shock.</strong> Pour boiling water into ordinary glass and the
+          inside expands before the outside, and it cracks. Borosilicate barely expands at all,
+          which is why laboratory glassware is made from it.
+        </li>
+        <li>
+          <strong>Bimetallic strips.</strong> Bond two metals with different α and the strip
+          curls when heated. This was the basis of mechanical thermostats for a century.
+        </li>
+        <li>
+          <strong>Shrink fitting.</strong> Cool a shaft, warm the collar, assemble, let them
+          equalise. The resulting interference fit needs no fasteners.
+        </li>
+      </ul>
+
+      <h2>Where the model breaks</h2>
+      <p>
+        α itself varies with temperature, so this linear model degrades over wide ranges. Water
+        is the famous anomaly: between 0 and 4 °C it contracts as it warms, which is why ice
+        floats and lakes freeze from the top down. And near a phase change all bets are off —
+        the volume jump on freezing or melting dwarfs ordinary thermal expansion.
+      </p>
+    </>
+  ),
+});
