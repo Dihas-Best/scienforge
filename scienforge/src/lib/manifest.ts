@@ -817,6 +817,16 @@ export const MANIFEST: ToolMeta[] = [
     ],
     "related": []
   },
+    {
+    "slug": "specific-heat",
+    "category": "physics",
+    "group": "Thermal and modern",
+    "title": "Specific heat capacity calculator",
+    "label": "Specific heat",
+    "description": "Find the energy needed to change a substance's temperature, or solve for mass, temperature change or specific heat capacity.",
+    "keywords": ["specific heat", "heat capacity", "q=mcat", "thermal energy", "calorimetry"],
+    "related": ["thermal-expansion"]
+  },
   {
     "slug": "projectile-motion",
     "category": "physics",
