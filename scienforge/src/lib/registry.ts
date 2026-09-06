@@ -48,6 +48,7 @@ export const TOOLS: Tool[] = [
   phys.specificHeat, phys.hookesLaw, phys.snellsLaw, phys.thermalExpansion,
 
   molarity, chem.idealGas, chem.phCalc, chem.dilution, chem.halfLife,
+  chem.molarMass, chem.limitingReagent,
 
   graphing, quadratic, maths.percentage, maths.rightTriangle, maths.circleGeometry,
   maths.standardDeviation, maths.combinatorics, maths.logarithm,
@@ -59,7 +60,7 @@ export const TOOLS: Tool[] = [
 
   health.bmi, health.bmr, health.oneRepMax, health.pace,
 
-  finance.compoundInterest, finance.loanPayment,
+  finance.compoundInterest, finance.loanPayment, finance.simpleInterest,
 ];
 
 const BY_SLUG = new Map(TOOLS.map((t) => [t.slug, t]));
