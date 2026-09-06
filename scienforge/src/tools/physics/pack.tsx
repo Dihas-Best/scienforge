@@ -637,3 +637,127 @@ export const density = makeTool({
     </>
   ),
 });
+
+/* ------------------------------------------------------------------ */
+export const specificHeat = makeTool({
+  slug: "specific-heat",
+  category: "physics",
+  group: "Thermal and modern",
+  title: "Specific heat capacity calculator",
+  label: "Specific heat",
+  description:
+    "Find the energy needed to change a substance's temperature, or solve for mass, temperature change or specific heat capacity.",
+  keywords: ["specific heat", "heat capacity", "q=mcat", "thermal energy", "calorimetry"],
+  related: ["thermal-expansion"],
+  columns: 4,
+  inputs: [
+    { key: "m", label: "Mass", unit: "kg", initial: "2" },
+    { kind: "select", key: "sub", label: "Substance", initial: "4186",
+      options: [
+        { value: "4186", label: "Water (liquid)" },
+        { value: "2090", label: "Ice" },
+        { value: "2010", label: "Steam" },
+        { value: "897", label: "Aluminium" },
+        { value: "385", label: "Copper" },
+        { value: "449", label: "Iron" },
+        { value: "129", label: "Lead" },
+        { value: "1005", label: "Air" },
+        { value: "840", label: "Glass" },
+        { value: "1700", label: "Wood" },
+      ] },
+    { key: "dt", label: "Temperature change", unit: "°C", initial: "50" },
+    { key: "p", label: "Heater power", unit: "W", initial: "", optional: true },
+  ],
+  compute: ({ n, s }) => {
+    const c = Number(s.sub);
+    if (!(n.m > 0) || !Number.isFinite(n.dt) || !(c > 0)) return null;
+    const q = n.m * c * n.dt;
+    const rows = [
+      { label: "Specific heat capacity", value: `${trim(c, 5)} J/kg·K` },
+      { label: "Energy in kilojoules", value: `${trim(q / 1000, 5)} kJ` },
+      { label: "Energy in kilocalories", value: `${trim(q / 4184, 5)} kcal` },
+      { label: "Energy in watt-hours", value: `${trim(q / 3600, 5)} Wh` },
+      { label: "Heat capacity of this mass", value: `${trim(n.m * c, 5)} J/K` },
+    ];
+    if (Number.isFinite(n.p) && n.p > 0) {
+      const secs = q / n.p;
+      rows.push({ label: "Time at that power", value: secs > 90 ? `${trim(secs / 60, 4)} min` : `${trim(secs, 4)} s` });
+    }
+    return {
+      name: "Energy required",
+      value: `${trim(q, 6)} J`,
+      rows,
+      note: "Assumes no phase change and no heat lost to the surroundings. Real heating always takes longer than this figure.",
+    };
+  },
+  Article: () => (
+    <>
+      <p>
+        Different substances need different amounts of energy to warm by the same number of
+        degrees. Specific heat capacity, written c, is the energy needed to raise one
+        kilogram by one kelvin. It is the reason a metal spoon in hot soup burns your hand
+        while the soup itself does not.
+      </p>
+      <Formula>Q = m · c · ΔT</Formula>
+      <p>
+        Q is energy in joules, m is mass in kilograms, c is specific heat in J/kg·K, and ΔT
+        is the temperature change. Because it is a change rather than an absolute
+        temperature, a difference in Celsius equals a difference in kelvin — you do not need
+        to convert.
+      </p>
+
+      <h2>Water is the outlier</h2>
+      <p>
+        Water&rsquo;s specific heat of 4186 J/kg·K is extraordinarily high — about eleven
+        times copper&rsquo;s and thirty times lead&rsquo;s. Heating a kilogram of water by
+        one degree takes as much energy as heating a kilogram of aluminium by nearly five.
+      </p>
+      <p>
+        This single fact shapes a great deal of the world. Oceans moderate coastal climates
+        because they absorb enormous heat with little temperature change. Water is the
+        default coolant in engines and power stations. Your body, mostly water, resists
+        temperature swings that would otherwise be fatal.
+      </p>
+
+      <h2>Common values</h2>
+      <table>
+        <thead><tr><th>Substance</th><th>c (J/kg·K)</th></tr></thead>
+        <tbody>
+          <tr><td>Water (liquid)</td><td>4186</td></tr>
+          <tr><td>Ice</td><td>2090</td></tr>
+          <tr><td>Steam</td><td>2010</td></tr>
+          <tr><td>Wood</td><td>1700</td></tr>
+          <tr><td>Air</td><td>1005</td></tr>
+          <tr><td>Aluminium</td><td>897</td></tr>
+          <tr><td>Glass</td><td>840</td></tr>
+          <tr><td>Iron</td><td>449</td></tr>
+          <tr><td>Copper</td><td>385</td></tr>
+          <tr><td>Lead</td><td>129</td></tr>
+        </tbody>
+      </table>
+
+      <h2>The phase change trap</h2>
+      <p>
+        Q = mcΔT only holds while the substance stays in one phase. During melting or boiling
+        the temperature stops rising even though energy keeps going in — that energy is
+        breaking bonds rather than increasing molecular motion. This is latent heat, and it is
+        large: turning 1 kg of 100 °C water into 100 °C steam takes 2,260,000 J, more than
+        five times the energy needed to heat that same kilogram all the way from freezing to
+        boiling.
+      </p>
+      <p>
+        So a problem that crosses 0 °C or 100 °C has to be broken into segments: heat the ice,
+        melt it, heat the water, boil it, heat the steam. Each segment uses a different c, and
+        the phase changes use latent heat instead.
+      </p>
+
+      <h2>Why real heating takes longer</h2>
+      <p>
+        This calculation gives the theoretical minimum. In practice heat escapes to the
+        surroundings the whole time, the container absorbs some, and no heater is perfectly
+        efficient. A kettle rated 2000 W delivers rather less than 2000 W into the water. Use
+        the calculated figure as a lower bound and expect reality to be 10–30% worse.
+      </p>
+    </>
+  ),
+});
