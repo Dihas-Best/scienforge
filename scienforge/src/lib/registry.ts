@@ -49,6 +49,7 @@ export const TOOLS: Tool[] = [
 
   graphing, quadratic, maths.percentage, maths.rightTriangle, maths.circleGeometry,
   maths.standardDeviation, maths.combinatorics, maths.logarithm,
+  maths.gcfLcm, maths.primeFactorisation, maths.scientificNotation,
 
   unitConverter, conv.numberBase,
 
