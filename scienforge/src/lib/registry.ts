@@ -25,6 +25,7 @@ import * as chem from "@/tools/chemistry/pack";
 import quadratic from "@/tools/math/quadratic";
 import graphing from "@/tools/math/graphing";
 import * as maths from "@/tools/math/pack";
+import * as everyday from "@/tools/everyday/pack";
 
 import unitConverter from "@/tools/converters/unit-converter";
 import * as conv from "@/tools/converters/pack";
@@ -43,13 +44,16 @@ export const TOOLS: Tool[] = [
 
   projectileMotion, phys.newtonsSecondLaw, phys.kineticEnergy, phys.momentum,
   phys.circularMotion, phys.pendulum, phys.waveSpeed, phys.lensEquation,
-  phys.escapeVelocity, phys.density, phys.specificHeat,phys.specificHeat, phys.hookesLaw, phys.snellsLaw, phys.thermalExpansion,
+  phys.escapeVelocity, phys.density,
+  phys.specificHeat, phys.hookesLaw, phys.snellsLaw, phys.thermalExpansion,
 
   molarity, chem.idealGas, chem.phCalc, chem.dilution, chem.halfLife,
 
   graphing, quadratic, maths.percentage, maths.rightTriangle, maths.circleGeometry,
   maths.standardDeviation, maths.combinatorics, maths.logarithm,
   maths.gcfLcm, maths.primeFactorisation, maths.scientificNotation,
+  everyday.ipSubnet, everyday.ageCalculator, everyday.dateCalculator,
+  everyday.gpaCalculator, everyday.passwordGenerator,
 
   unitConverter, conv.numberBase,
 
