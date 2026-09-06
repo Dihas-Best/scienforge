@@ -873,3 +873,378 @@ export const decibels = makeTool({
     </>
   ),
 });
+
+/* ------------------------------------------------------------------ */
+export const wireGauge = makeTool({
+  slug: "wire-gauge-awg",
+  category: "electronics",
+  group: "Power and thermal",
+  title: "Wire gauge (AWG) calculator",
+  label: "Wire gauge (AWG)",
+  description:
+    "Convert AWG to diameter and cross-sectional area, and check the resistance and current capacity of a given length of copper wire.",
+  keywords: ["awg", "wire gauge", "wire size", "ampacity", "copper wire", "current capacity"],
+  related: ["voltage-drop", "ohms-law"],
+  columns: 3,
+  inputs: [
+    { key: "awg", label: "AWG size", initial: "18", hint: "Smaller number = thicker wire" },
+    { key: "len", label: "Length of run", unit: "m", initial: "10" },
+    { key: "i", label: "Current carried", unit: "A", initial: "5", optional: true },
+  ],
+  compute: ({ n }) => {
+    if (!Number.isFinite(n.awg) || n.awg < -3 || n.awg > 40) return null;
+    // Standard AWG definition: #36 is 0.005 in, #0000 is 0.46 in, 39 steps between.
+    const dMm = 0.127 * 92 ** ((36 - n.awg) / 39);
+    const areaMm2 = (PI * dMm * dMm) / 4;
+    const rhoCu = 1.68e-8; // ohm-metre at 20 °C
+    const ohmsPerM = rhoCu / (areaMm2 * 1e-6);
+    const rows = [
+      { label: "Diameter", value: `${trim(dMm, 4)} mm` },
+      { label: "Cross-sectional area", value: `${trim(areaMm2, 4)} mm²` },
+      { label: "Resistance per metre", value: si(ohmsPerM, "Ω/m") },
+    ];
+    if (Number.isFinite(n.len) && n.len > 0) {
+      const rTotal = ohmsPerM * n.len;
+      rows.push({ label: `Resistance of ${trim(n.len, 4)} m`, value: si(rTotal, "Ω") });
+      if (Number.isFinite(n.i) && n.i > 0) {
+        rows.push({ label: "Voltage drop one way", value: si(rTotal * n.i, "V") });
+        rows.push({ label: "Drop on a two-wire run", value: si(2 * rTotal * n.i, "V") });
+        rows.push({ label: "Power lost as heat", value: si(2 * rTotal * n.i * n.i, "W") });
+      }
+    }
+    // Chassis-wiring rule of thumb, roughly 4 A/mm² for free-air single conductors.
+    const ampacity = areaMm2 * 4;
+    return {
+      name: "Conductor size",
+      value: `${trim(dMm, 4)} mm ⌀`,
+      rows: [...rows, { label: "Rough current limit (free air)", value: `${trim(ampacity, 3)} A` }],
+      note: "Copper at 20 °C. The current limit is a rule of thumb for single conductors in open air — bundled wire, conduit and higher ambient temperatures all reduce it. For mains wiring follow your local electrical code, not this number.",
+    };
+  },
+  Article: () => (
+    <>
+      <p>
+        American Wire Gauge runs backwards: the larger the number, the thinner the wire.
+        The scale is geometric, defined so that #36 measures 0.005 inches and #0000 measures
+        0.46 inches, with 39 equal ratio steps between them.
+      </p>
+      <Formula>d = 0.127 mm × 92^((36 − n) / 39)</Formula>
+      <p>
+        Two consequences are worth memorising. Six gauge numbers doubles the diameter, which
+        quadruples the cross-sectional area. Three gauge numbers doubles the area. So 14 AWG
+        has twice the copper of 17 AWG, and four times that of 20 AWG.
+      </p>
+
+      <h2>Why area is the number that matters</h2>
+      <p>
+        Resistance follows R = ρL/A. Copper&rsquo;s resistivity ρ is 1.68 × 10⁻⁸ Ω·m at
+        20 °C, L is the length and A the cross-sectional area. Because area scales with the
+        square of the diameter, a small change in gauge produces a large change in
+        resistance — and in the heat the wire generates, since that goes as I²R.
+      </p>
+
+      <h2>Two different limits</h2>
+      <p>
+        Wire sizing is constrained by two separate things, and which one binds depends on
+        the run.
+      </p>
+      <ul>
+        <li>
+          <strong>Heating.</strong> The wire must not get hot enough to damage its
+          insulation. This dominates on short runs at high current.
+        </li>
+        <li>
+          <strong>Voltage drop.</strong> The wire must not eat so much of the supply voltage
+          that the load misbehaves. This dominates on long runs, and it is why a wire that is
+          thermally fine can still be the wrong choice — a 12 V circuit losing 1 V in the
+          cable has lost over 8% of its supply.
+        </li>
+      </ul>
+      <p>
+        Remember to count both conductors. Current flows out along one and back along the
+        other, so a 10 metre run means 20 metres of copper for voltage-drop purposes.
+      </p>
+
+      <h2>Common sizes</h2>
+      <table>
+        <thead>
+          <tr><th>AWG</th><th>Diameter</th><th>Area</th><th>Ω per metre</th><th>Typical use</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>10</td><td>2.59 mm</td><td>5.26 mm²</td><td>0.0032</td><td>High-current DC, battery leads</td></tr>
+          <tr><td>12</td><td>2.05 mm</td><td>3.31 mm²</td><td>0.0051</td><td>Mains circuits, motors</td></tr>
+          <tr><td>14</td><td>1.63 mm</td><td>2.08 mm²</td><td>0.0081</td><td>Lighting circuits</td></tr>
+          <tr><td>18</td><td>1.02 mm</td><td>0.82 mm²</td><td>0.0205</td><td>Hookup wire, low-power loads</td></tr>
+          <tr><td>22</td><td>0.64 mm</td><td>0.33 mm²</td><td>0.0518</td><td>Breadboards, signal wiring</td></tr>
+          <tr><td>24</td><td>0.51 mm</td><td>0.20 mm²</td><td>0.0842</td><td>Jumper leads, ribbon cable</td></tr>
+          <tr><td>30</td><td>0.25 mm</td><td>0.051 mm²</td><td>0.339</td><td>Wire-wrap, fine work</td></tr>
+        </tbody>
+      </table>
+
+      <h2>What this calculator does not account for</h2>
+      <p>
+        Copper resistance rises about 0.39% per degree Celsius, so a wire running at 70 °C
+        has roughly 20% more resistance than the 20 °C figure used here. Stranded wire has
+        slightly more resistance than solid of the same nominal gauge, because the strands
+        spiral and are therefore longer than the cable. At high frequencies the skin effect
+        pushes current into the outer surface, making the effective area smaller than the
+        physical one — irrelevant at DC and mains frequency, significant in RF work.
+      </p>
+      <p>
+        Metric cable is specified directly by cross-sectional area in mm² rather than by
+        gauge number, which sidesteps the whole conversion. 2.5 mm² sits between 13 and 14
+        AWG; 1.5 mm² is close to 15 AWG.
+      </p>
+    </>
+  ),
+});
+
+/* ------------------------------------------------------------------ */
+export const voltageDrop = makeTool({
+  slug: "voltage-drop",
+  category: "electronics",
+  group: "Power and thermal",
+  title: "Voltage drop calculator",
+  label: "Voltage drop",
+  description:
+    "Work out how much voltage a cable run loses, as a value and as a percentage of the supply, for copper or aluminium conductors.",
+  keywords: ["voltage drop", "cable run", "wire loss", "cable sizing", "line loss"],
+  related: ["wire-gauge-awg", "ohms-law"],
+  columns: 3,
+  inputs: [
+    { key: "v", label: "Supply voltage", unit: "V", initial: "12" },
+    { key: "i", label: "Load current", unit: "A", initial: "10" },
+    { key: "len", label: "One-way run length", unit: "m", initial: "5" },
+    { key: "a", label: "Conductor area", unit: "mm²", initial: "2.5" },
+    { kind: "select", key: "metal", label: "Conductor material", initial: "cu",
+      options: [{ value: "cu", label: "Copper" }, { value: "al", label: "Aluminium" }] },
+    { kind: "select", key: "phase", label: "Circuit type", initial: "dc",
+      options: [
+        { value: "dc", label: "DC or single phase" },
+        { value: "three", label: "Three phase" },
+      ] },
+  ],
+  compute: ({ n, s }) => {
+    if (!(n.v > 0) || !(n.i > 0) || !(n.len > 0) || !(n.a > 0)) return null;
+    const rho = s.metal === "cu" ? 1.68e-8 : 2.82e-8;
+    const rOneWay = (rho * n.len) / (n.a * 1e-6);
+    // Two conductors for DC/single phase; sqrt(3) factor for balanced three phase.
+    const factor = s.phase === "three" ? Math.sqrt(3) : 2;
+    const drop = factor * rOneWay * n.i;
+    const pct = (drop / n.v) * 100;
+    const loss = drop * n.i;
+    return {
+      name: "Voltage drop",
+      value: `${trim(drop, 5)} V`,
+      rows: [
+        { label: "As a percentage of supply", value: `${trim(pct, 4)}%` },
+        { label: "Voltage at the load", value: `${trim(n.v - drop, 6)} V` },
+        { label: "Loop resistance", value: si(factor * rOneWay, "Ω") },
+        { label: "Power wasted in the cable", value: si(loss, "W") },
+        { label: "Verdict", value: pct <= 3 ? "Comfortable" : pct <= 5 ? "Acceptable" : "Too much — go thicker" },
+      ],
+      note: "Conductors at 20 °C. Most wiring guidance treats 3% as the target for a branch circuit and 5% as the outer limit; low-voltage DC needs to be tighter still, because the same absolute drop is a far larger fraction of the supply.",
+    };
+  },
+  Article: () => (
+    <>
+      <p>
+        Cable is not a perfect conductor. Every metre has resistance, and pushing current
+        through it consumes voltage that never reaches the load. On a short run at low
+        current this is negligible. On a long run at high current it is often the thing that
+        decides what cable you need.
+      </p>
+      <Formula>V_drop = 2 × I × ρL / A&nbsp;&nbsp;(DC or single phase)</Formula>
+      <p>
+        The factor of 2 is the detail people forget: current travels out along one conductor
+        and back along the other, so a 5 metre run is 10 metres of copper. For balanced
+        three-phase the factor is √3 instead, because the return currents partly cancel.
+      </p>
+
+      <h2>Why percentage matters more than volts</h2>
+      <p>
+        A 0.5 V drop is trivial on a 230 V circuit — about 0.2%. The same 0.5 V on a 12 V
+        battery system is over 4%, enough to dim lights noticeably and to stop some devices
+        working at all. This is why low-voltage DC installations need disproportionately fat
+        cable: the current is higher for the same power, and the tolerance for loss is far
+        smaller.
+      </p>
+      <p>
+        Common targets: 3% for a branch circuit, 5% total from the supply to the furthest
+        point. For 12 V solar and automotive work, many designers aim for 2% or better.
+      </p>
+
+      <h2>Copper against aluminium</h2>
+      <p>
+        Aluminium&rsquo;s resistivity is 2.82 × 10⁻⁸ Ω·m against copper&rsquo;s 1.68 × 10⁻⁸,
+        so it has roughly 68% more resistance for the same cross-section. To match a copper
+        cable you need about 1.6 times the area, usually two AWG sizes up. Aluminium is
+        cheaper and lighter, which is why it appears in service entrance and utility cable,
+        but it creeps under termination pressure and oxidises into a resistive surface layer,
+        so it needs connectors rated for it.
+      </p>
+
+      <h2>Reducing a drop that is too large</h2>
+      <ul>
+        <li>
+          <strong>Thicker cable.</strong> Direct and usually the answer. Resistance is
+          inversely proportional to area, so doubling the area halves the drop.
+        </li>
+        <li>
+          <strong>Shorter run.</strong> Move the supply closer, or feed from a nearer point.
+        </li>
+        <li>
+          <strong>Higher voltage.</strong> The most effective change of all. For a fixed
+          power, doubling voltage halves current, which halves the drop and quarters the
+          wasted power. It is the entire reason transmission lines run at hundreds of
+          kilovolts.
+        </li>
+      </ul>
+
+      <h2>Temperature</h2>
+      <p>
+        The figures here assume 20 °C. Copper gains about 0.39% resistance per degree, so a
+        conductor at its rated 70 °C carries roughly 20% more resistance than calculated.
+        On a run already near the limit, that margin matters — and it compounds, because the
+        extra resistance produces extra heat.
+      </p>
+    </>
+  ),
+});
+
+/* ------------------------------------------------------------------ */
+export const capacitorCharge = makeTool({
+  slug: "capacitor-charge-time",
+  category: "electronics",
+  group: "Passive components",
+  title: "Capacitor charge and discharge time calculator",
+  label: "Capacitor charge time",
+  description:
+    "Find the voltage on a capacitor after a given time, or the time needed to reach a target voltage, through a series resistor.",
+  keywords: ["capacitor charge", "discharge time", "rc charging", "time constant", "tau"],
+  related: ["rc-time-constant", "rc-filter-cutoff"],
+  columns: 3,
+  inputs: [
+    { key: "r", label: "Series resistance", unit: "Ω", initial: "10k" },
+    { key: "c", label: "Capacitance", unit: "F", initial: "100u" },
+    { key: "vs", label: "Supply voltage", unit: "V", initial: "5" },
+    { key: "t", label: "Elapsed time", unit: "s", initial: "1", optional: true },
+    { key: "vt", label: "Target voltage", unit: "V", initial: "", optional: true },
+    { kind: "select", key: "mode", label: "Direction", initial: "charge",
+      options: [{ value: "charge", label: "Charging" }, { value: "discharge", label: "Discharging" }] },
+  ],
+  compute: ({ n, s }) => {
+    if (!(n.r > 0) || !(n.c > 0) || !(n.vs > 0)) return null;
+    const tau = n.r * n.c;
+    const charging = s.mode === "charge";
+    const rows = [
+      { label: "Time constant τ = RC", value: si(tau, "s") },
+      { label: charging ? "63% charged at" : "37% remaining at", value: si(tau, "s") },
+      { label: charging ? "99% charged at (5τ)" : "1% remaining at (5τ)", value: si(5 * tau, "s") },
+      { label: "Energy stored when full", value: si(0.5 * n.c * n.vs * n.vs, "J") },
+      { label: "Initial current", value: si(n.vs / n.r, "A") },
+    ];
+    let headline: string;
+    if (Number.isFinite(n.vt) && n.vt > 0 && n.vt < n.vs) {
+      const time = charging
+        ? -tau * Math.log(1 - n.vt / n.vs)
+        : -tau * Math.log(n.vt / n.vs);
+      headline = `${si(time, "s")} to reach ${trim(n.vt, 4)} V`;
+      rows.unshift({ label: "Time constants needed", value: trim(time / tau, 4) });
+    } else if (Number.isFinite(n.t) && n.t >= 0) {
+      const v = charging
+        ? n.vs * (1 - Math.exp(-n.t / tau))
+        : n.vs * Math.exp(-n.t / tau);
+      headline = `${trim(v, 5)} V after ${si(n.t, "s")}`;
+      rows.unshift({ label: "Fraction of supply", value: `${trim((v / n.vs) * 100, 4)}%` });
+    } else {
+      headline = `τ = ${si(tau, "s")}`;
+    }
+    return {
+      name: charging ? "Charging" : "Discharging",
+      value: headline,
+      rows,
+      note: "Enter a target voltage to solve for time, or an elapsed time to solve for voltage. A target voltage takes priority if both are filled in.",
+    };
+  },
+  Article: () => (
+    <>
+      <p>
+        A capacitor charging through a resistor does not fill at a steady rate. The current
+        depends on the difference between the supply and whatever the capacitor already
+        holds, so as the voltage rises the current falls and the charging slows. The result
+        is an exponential curve that approaches the supply without ever quite arriving.
+      </p>
+      <Formula>
+        Charging:&nbsp;&nbsp;&nbsp;V(t) = V_s (1 − e^(−t/RC)){"\n"}
+        Discharging:&nbsp;&nbsp;V(t) = V₀ e^(−t/RC)
+      </Formula>
+
+      <h2>The time constant</h2>
+      <p>
+        The product RC has units of seconds and is written τ (tau). It is the single number
+        that characterises the circuit: 10 kΩ with 100 µF gives τ = 1 second, and so does
+        1 kΩ with 1000 µF. The shape of the curve is identical in both cases.
+      </p>
+      <table>
+        <thead>
+          <tr><th>Time</th><th>Charged to</th><th>Discharged to</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1τ</td><td>63.2%</td><td>36.8%</td></tr>
+          <tr><td>2τ</td><td>86.5%</td><td>13.5%</td></tr>
+          <tr><td>3τ</td><td>95.0%</td><td>5.0%</td></tr>
+          <tr><td>4τ</td><td>98.2%</td><td>1.8%</td></tr>
+          <tr><td>5τ</td><td>99.3%</td><td>0.7%</td></tr>
+        </tbody>
+      </table>
+      <p>
+        Five time constants is the working definition of &ldquo;finished&rdquo;. The
+        remaining 0.7% is below the noise floor of most circuits, and waiting for
+        mathematical completion means waiting forever.
+      </p>
+
+      <h2>Solving for time instead of voltage</h2>
+      <p>
+        Rearranging the charging equation gives the time to reach any particular voltage:
+      </p>
+      <Formula>t = −RC · ln(1 − V/V_s)</Formula>
+      <p>
+        The logarithm is why the last stretch takes so long. Getting to half the supply takes
+        0.69τ; getting to 99% takes 4.6τ — nearly seven times as long for the second half of
+        the journey.
+      </p>
+
+      <h2>Where this shows up</h2>
+      <ul>
+        <li>
+          <strong>Power-on reset.</strong> An RC network holds a reset pin low until the
+          supply has stabilised. Sizing it is exactly this calculation.
+        </li>
+        <li>
+          <strong>Debouncing.</strong> A mechanical switch chatters for a few milliseconds.
+          An RC with τ around 10 ms smooths it into a single clean transition.
+        </li>
+        <li>
+          <strong>Supply decoupling.</strong> How long a bulk capacitor can hold a rail up
+          during a current spike is a discharge problem.
+        </li>
+        <li>
+          <strong>Timing circuits.</strong> The 555 timer sets its period from exactly these
+          charge and discharge curves against fixed threshold voltages.
+        </li>
+      </ul>
+
+      <h2>Practical cautions</h2>
+      <p>
+        Real electrolytic capacitors leak, so they will not hold charge indefinitely, and
+        their tolerance is often −20%/+80% — the timing you calculate may be well off with a
+        cheap part. The initial current at the instant of switch-on is V_s/R with nothing
+        limiting it but the resistor, which matters when charging large capacitors from a
+        low-impedance supply. And a large charged capacitor stays dangerous after power is
+        removed: energy is ½CV², so a 1000 µF capacitor at 400 V holds 80 joules, which is
+        more than enough to kill.
+      </p>
+    </>
+  ),
+});
