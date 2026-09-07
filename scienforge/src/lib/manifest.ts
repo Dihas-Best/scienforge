@@ -776,7 +776,10 @@ export const MANIFEST: ToolMeta[] = [
       "height",
       "weight"
     ],
-    "related": []
+    "related": [
+      "bmi",
+      "lean-body-mass"
+    ]
   },
   {
     "slug": "bmr-tdee",
@@ -792,7 +795,10 @@ export const MANIFEST: ToolMeta[] = [
       "mifflin st jeor",
       "calories"
     ],
-    "related": []
+    "related": [
+      "bmi",
+      "lean-body-mass"
+    ]
   },
   {
     "slug": "one-rep-max",
@@ -809,7 +815,10 @@ export const MANIFEST: ToolMeta[] = [
       "strength",
       "lifting"
     ],
-    "related": []
+    "related": [
+      "bmi",
+      "lean-body-mass"
+    ]
   },
   {
     "slug": "running-pace",
@@ -826,7 +835,187 @@ export const MANIFEST: ToolMeta[] = [
       "split times",
       "min per km"
     ],
-    "related": []
+    "related": [
+      "bmi",
+      "lean-body-mass"
+    ]
+  },
+  {
+    "slug": "body-fat-percentage",
+    "category": "health",
+    "group": "Body composition",
+    "title": "Body fat percentage calculator (US Navy method)",
+    "label": "Body fat percentage",
+    "description": "Estimate body fat percentage from waist, neck and (for women) hip measurements using the US Navy circumference method.",
+    "keywords": [
+      "body fat percentage",
+      "body fat calculator",
+      "navy method",
+      "body composition"
+    ],
+    "related": [
+      "bmi",
+      "lean-body-mass"
+    ]
+  },
+  {
+    "slug": "lean-body-mass",
+    "category": "health",
+    "group": "Body composition",
+    "title": "Lean body mass calculator",
+    "label": "Lean body mass",
+    "description": "Estimate lean body mass and fat mass from height, weight and sex using the Boer formula.",
+    "keywords": [
+      "lean body mass calculator",
+      "lbm calculator",
+      "fat free mass",
+      "boer formula"
+    ],
+    "related": [
+      "body-fat-percentage",
+      "bmi"
+    ]
+  },
+  {
+    "slug": "waist-hip-ratio",
+    "category": "health",
+    "group": "Body composition",
+    "title": "Waist-to-hip ratio calculator",
+    "label": "Waist-to-hip ratio",
+    "description": "Calculate waist-to-hip ratio and see it against the World Health Organization's reference ranges for cardiometabolic risk.",
+    "keywords": [
+      "waist to hip ratio",
+      "whr calculator",
+      "waist hip ratio"
+    ],
+    "related": [
+      "bmi",
+      "body-fat-percentage"
+    ]
+  },
+  {
+    "slug": "ideal-body-weight",
+    "category": "health",
+    "group": "Body composition",
+    "title": "Ideal body weight calculator",
+    "label": "Ideal body weight",
+    "description": "See a reference range for body weight from height and sex, using several published formulas side by side rather than a single number.",
+    "keywords": [
+      "ideal body weight calculator",
+      "ibw calculator",
+      "devine formula",
+      "healthy weight range"
+    ],
+    "related": [
+      "bmi",
+      "lean-body-mass"
+    ]
+  },
+  {
+    "slug": "target-heart-rate",
+    "category": "health",
+    "group": "Training",
+    "title": "Target heart rate zone calculator",
+    "label": "Target heart rate",
+    "description": "Find training heart rate zones from age and resting heart rate using the Karvonen (heart rate reserve) method.",
+    "keywords": [
+      "target heart rate calculator",
+      "heart rate zones",
+      "karvonen formula",
+      "training zones"
+    ],
+    "related": [
+      "vo2-max",
+      "running-pace"
+    ]
+  },
+  {
+    "slug": "vo2-max",
+    "category": "health",
+    "group": "Training",
+    "title": "VO2 max estimator (Cooper test)",
+    "label": "VO2 max estimator",
+    "description": "Estimate VO2 max, a measure of aerobic fitness, from the distance covered in a 12-minute run using the Cooper test formula.",
+    "keywords": [
+      "vo2 max calculator",
+      "cooper test",
+      "aerobic fitness",
+      "vo2max estimate"
+    ],
+    "related": [
+      "target-heart-rate",
+      "running-pace"
+    ]
+  },
+  {
+    "slug": "sleep-cycle",
+    "category": "health",
+    "group": "Training",
+    "title": "Sleep cycle calculator",
+    "label": "Sleep cycle calculator",
+    "description": "Find bedtimes or wake times that align with complete 90-minute sleep cycles, to reduce the chance of waking mid-cycle.",
+    "keywords": [
+      "sleep cycle calculator",
+      "sleep calculator",
+      "bedtime calculator",
+      "wake up time calculator"
+    ],
+    "related": [
+      "bmr-tdee"
+    ]
+  },
+  {
+    "slug": "calories-burned-exercise",
+    "category": "health",
+    "group": "Energy",
+    "title": "Calories burned during exercise calculator",
+    "label": "Calories burned",
+    "description": "Estimate calories burned during common activities from body weight, duration and exercise intensity using MET values.",
+    "keywords": [
+      "calories burned calculator",
+      "exercise calories",
+      "met calculator",
+      "workout calories"
+    ],
+    "related": [
+      "bmr-tdee"
+    ]
+  },
+  {
+    "slug": "water-intake",
+    "category": "health",
+    "group": "Energy",
+    "title": "Daily water intake calculator",
+    "label": "Water intake",
+    "description": "Estimate a general daily water intake range from body weight and exercise duration, using commonly cited reference formulas.",
+    "keywords": [
+      "water intake calculator",
+      "hydration calculator",
+      "how much water should i drink",
+      "daily water needs"
+    ],
+    "related": [
+      "bmr-tdee",
+      "calories-burned-exercise"
+    ]
+  },
+  {
+    "slug": "macronutrient-ratio",
+    "category": "health",
+    "group": "Energy",
+    "title": "Macronutrient ratio calculator",
+    "label": "Macronutrient ratio",
+    "description": "Convert a daily calorie target and a chosen carbohydrate/protein/fat split into grams of each macronutrient.",
+    "keywords": [
+      "macro calculator",
+      "macronutrient calculator",
+      "carbs protein fat calculator",
+      "macro ratio"
+    ],
+    "related": [
+      "bmr-tdee",
+      "calories-burned-exercise"
+    ]
   },
   {
     "slug": "graphing-calculator",
