@@ -59,6 +59,9 @@ export const TOOLS: Tool[] = [
   unitConverter, conv.numberBase,
 
   health.bmi, health.bmr, health.oneRepMax, health.pace,
+  health.bodyFatNavy, health.leanBodyMass, health.waistHipRatio, health.idealBodyWeight,
+  health.targetHeartRate, health.vo2Max, health.sleepCycle,
+  health.caloriesBurned, health.waterIntake, health.macronutrientRatio,
 
   finance.compoundInterest, finance.loanPayment, finance.simpleInterest,
   finance.mortgagePayment, finance.autoLoan, finance.retirementSavings,
