@@ -888,7 +888,13 @@ export const wireGauge = makeTool({
   columns: 3,
   inputs: [
     { key: "awg", label: "AWG size", initial: "18", hint: "Smaller number = thicker wire" },
-    { key: "len", label: "Length of run", unit: "m", initial: "10" },
+    { key: "len", label: "Length of run", initial: "10",
+      units: [
+        { value: "m", label: "m", toBase: 1 },
+        { value: "cm", label: "cm", toBase: 0.01 },
+        { value: "ft", label: "ft", toBase: 0.3048 },
+        { value: "in", label: "in", toBase: 0.0254 },
+      ] },
     { key: "i", label: "Current carried", unit: "A", initial: "5", optional: true },
   ],
   compute: ({ n }) => {
@@ -1014,7 +1020,13 @@ export const voltageDrop = makeTool({
   inputs: [
     { key: "v", label: "Supply voltage", unit: "V", initial: "12" },
     { key: "i", label: "Load current", unit: "A", initial: "10" },
-    { key: "len", label: "One-way run length", unit: "m", initial: "5" },
+    { key: "len", label: "One-way run length", initial: "5",
+      units: [
+        { value: "m", label: "m", toBase: 1 },
+        { value: "cm", label: "cm", toBase: 0.01 },
+        { value: "ft", label: "ft", toBase: 0.3048 },
+        { value: "in", label: "in", toBase: 0.0254 },
+      ] },
     { key: "a", label: "Conductor area", unit: "mm²", initial: "2.5" },
     { kind: "select", key: "metal", label: "Conductor material", initial: "cu",
       options: [{ value: "cu", label: "Copper" }, { value: "al", label: "Aluminium" }] },
