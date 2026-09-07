@@ -72,8 +72,18 @@ export const bmr = makeTool({
     { kind: "select", key: "sex", label: "Sex", initial: "male",
       options: [{ value: "male", label: "Male" }, { value: "female", label: "Female" }] },
     { key: "age", label: "Age", unit: "years", initial: "25" },
-    { key: "w", label: "Weight", unit: "kg", initial: "70" },
-    { key: "h", label: "Height", unit: "cm", initial: "175" },
+    { key: "w", label: "Weight", initial: "70",
+      units: [
+        { value: "kg", label: "kg", toBase: 1 },
+        { value: "lb", label: "lb", toBase: 0.45359237 },
+      ] },
+    { key: "h", label: "Height", initial: "175",
+      units: [
+        { value: "cm", label: "cm", toBase: 1 },
+        { value: "in", label: "in", toBase: 2.54 },
+        { value: "m", label: "m", toBase: 100 },
+        { value: "ft", label: "ft", toBase: 30.48 },
+      ] },
     { kind: "select", key: "act", label: "Activity level", initial: "1.55",
       options: [
         { value: "1.2", label: "Sedentary — desk work" },
@@ -128,7 +138,11 @@ export const oneRepMax = makeTool({
   keywords: ["one rep max", "1rm", "epley", "brzycki", "strength", "lifting"],
   columns: 2,
   inputs: [
-    { key: "w", label: "Weight lifted", unit: "kg", initial: "80" },
+    { key: "w", label: "Weight lifted", initial: "80",
+      units: [
+        { value: "kg", label: "kg", toBase: 1 },
+        { value: "lb", label: "lb", toBase: 0.45359237 },
+      ] },
     { key: "r", label: "Repetitions completed", initial: "5" },
   ],
   compute: ({ n }) => {
@@ -237,10 +251,34 @@ export const bodyFatNavy = makeTool({
   inputs: [
     { kind: "select", key: "sex", label: "Sex", initial: "male",
       options: [{ value: "male", label: "Male" }, { value: "female", label: "Female" }] },
-    { key: "height", label: "Height", unit: "cm", initial: "175" },
-    { key: "neck", label: "Neck circumference", unit: "cm", initial: "38" },
-    { key: "waist", label: "Waist circumference", unit: "cm", initial: "85" },
-    { key: "hip", label: "Hip circumference", unit: "cm", initial: "95", optional: true, hint: "Required for women only" },
+    { key: "height", label: "Height", initial: "175",
+      units: [
+        { value: "cm", label: "cm", toBase: 1 },
+        { value: "in", label: "in", toBase: 2.54 },
+        { value: "m", label: "m", toBase: 100 },
+        { value: "ft", label: "ft", toBase: 30.48 },
+      ] },
+    { key: "neck", label: "Neck circumference", initial: "38",
+      units: [
+        { value: "cm", label: "cm", toBase: 1 },
+        { value: "in", label: "in", toBase: 2.54 },
+        { value: "m", label: "m", toBase: 100 },
+        { value: "ft", label: "ft", toBase: 30.48 },
+      ] },
+    { key: "waist", label: "Waist circumference", initial: "85",
+      units: [
+        { value: "cm", label: "cm", toBase: 1 },
+        { value: "in", label: "in", toBase: 2.54 },
+        { value: "m", label: "m", toBase: 100 },
+        { value: "ft", label: "ft", toBase: 30.48 },
+      ] },
+    { key: "hip", label: "Hip circumference", initial: "95", optional: true, hint: "Required for women only",
+      units: [
+        { value: "cm", label: "cm", toBase: 1 },
+        { value: "in", label: "in", toBase: 2.54 },
+        { value: "m", label: "m", toBase: 100 },
+        { value: "ft", label: "ft", toBase: 30.48 },
+      ] },
   ],
   compute: ({ n, s }) => {
     const male = s.sex === "male";
@@ -341,8 +379,18 @@ export const leanBodyMass = makeTool({
   inputs: [
     { kind: "select", key: "sex", label: "Sex", initial: "male",
       options: [{ value: "male", label: "Male" }, { value: "female", label: "Female" }] },
-    { key: "weight", label: "Weight", unit: "kg", initial: "75" },
-    { key: "height", label: "Height", unit: "cm", initial: "175" },
+    { key: "weight", label: "Weight", initial: "75",
+      units: [
+        { value: "kg", label: "kg", toBase: 1 },
+        { value: "lb", label: "lb", toBase: 0.45359237 },
+      ] },
+    { key: "height", label: "Height", initial: "175",
+      units: [
+        { value: "cm", label: "cm", toBase: 1 },
+        { value: "in", label: "in", toBase: 2.54 },
+        { value: "m", label: "m", toBase: 100 },
+        { value: "ft", label: "ft", toBase: 30.48 },
+      ] },
   ],
   compute: ({ n, s }) => {
     if (!(n.weight > 0) || !(n.height > 0)) return null;
@@ -440,8 +488,20 @@ export const waistHipRatio = makeTool({
   inputs: [
     { kind: "select", key: "sex", label: "Sex", initial: "male",
       options: [{ value: "male", label: "Male" }, { value: "female", label: "Female" }] },
-    { key: "waist", label: "Waist circumference", unit: "cm", initial: "85" },
-    { key: "hip", label: "Hip circumference", unit: "cm", initial: "100" },
+    { key: "waist", label: "Waist circumference", initial: "85",
+      units: [
+        { value: "cm", label: "cm", toBase: 1 },
+        { value: "in", label: "in", toBase: 2.54 },
+        { value: "m", label: "m", toBase: 100 },
+        { value: "ft", label: "ft", toBase: 30.48 },
+      ] },
+    { key: "hip", label: "Hip circumference", initial: "100",
+      units: [
+        { value: "cm", label: "cm", toBase: 1 },
+        { value: "in", label: "in", toBase: 2.54 },
+        { value: "m", label: "m", toBase: 100 },
+        { value: "ft", label: "ft", toBase: 30.48 },
+      ] },
   ],
   compute: ({ n, s }) => {
     if (!(n.waist > 0) || !(n.hip > 0)) return null;
@@ -529,7 +589,13 @@ export const idealBodyWeight = makeTool({
   inputs: [
     { kind: "select", key: "sex", label: "Sex", initial: "male",
       options: [{ value: "male", label: "Male" }, { value: "female", label: "Female" }] },
-    { key: "height", label: "Height", unit: "cm", initial: "175" },
+    { key: "height", label: "Height", initial: "175",
+      units: [
+        { value: "cm", label: "cm", toBase: 1 },
+        { value: "in", label: "in", toBase: 2.54 },
+        { value: "m", label: "m", toBase: 100 },
+        { value: "ft", label: "ft", toBase: 30.48 },
+      ] },
   ],
   compute: ({ n, s }) => {
     if (!(n.height > 60) || !(n.height < 250)) return null;
@@ -966,7 +1032,11 @@ export const caloriesBurned = makeTool({
   inputs: [
     { kind: "select", key: "activity", label: "Activity", initial: "Running (6 mph / 10 min mile)",
       options: Object.keys(MET_VALUES).map((a) => ({ value: a, label: a })) },
-    { key: "weight", label: "Body weight", unit: "kg", initial: "70" },
+    { key: "weight", label: "Body weight", initial: "70",
+      units: [
+        { value: "kg", label: "kg", toBase: 1 },
+        { value: "lb", label: "lb", toBase: 0.45359237 },
+      ] },
     { key: "duration", label: "Duration", unit: "minutes", initial: "30" },
   ],
   compute: ({ n, s }) => {
@@ -1060,7 +1130,11 @@ export const waterIntake = makeTool({
   keywords: ["water intake calculator", "hydration calculator", "how much water should i drink", "daily water needs"],
   columns: 3,
   inputs: [
-    { key: "weight", label: "Body weight", unit: "kg", initial: "70" },
+    { key: "weight", label: "Body weight", initial: "70",
+      units: [
+        { value: "kg", label: "kg", toBase: 1 },
+        { value: "lb", label: "lb", toBase: 0.45359237 },
+      ] },
     { key: "exercise", label: "Exercise duration", unit: "minutes/day", initial: "30", optional: true },
   ],
   compute: ({ n }) => {
