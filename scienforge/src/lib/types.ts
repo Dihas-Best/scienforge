@@ -80,7 +80,7 @@ export const CATEGORIES: Category[] = [
     id: "finance",
     name: "Finance",
     blurb: "Interest, loans and savings growth over time.",
-    groups: ["Interest and growth", "Borrowing"],
+    groups: ["Interest and growth", "Borrowing", "Planning"],
   },
   {
     id: "everyday",
