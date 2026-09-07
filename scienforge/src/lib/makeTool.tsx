@@ -15,6 +15,16 @@ export type NumberInput = {
   hint?: string;
   /** Blank is allowed and yields NaN. Used by tools that solve for a missing value. */
   optional?: boolean;
+  /**
+   * Optional list of alternate units the person can enter this value in — e.g.
+   * centimetres, inches, feet. `toBase` is the multiplier that converts one unit of
+   * that option into the tool's canonical unit (the one `compute` expects). The
+   * compute function always receives the value already converted to the base unit,
+   * so adding units here never requires changing compute logic.
+   */
+  units?: { value: string; label: string; toBase: number }[];
+  /** Which `units` entry is selected by default. Defaults to the first one listed. */
+  defaultUnit?: string;
 };
 
 export type SelectInput = {
@@ -84,23 +94,41 @@ export function makeTool(spec: Spec): Tool {
     const [values, setValues] = useState<Record<string, string>>(() =>
       Object.fromEntries(inputs.map((i) => [i.key, i.initial]))
     );
+    const [unitChoice, setUnitChoice] = useState<Record<string, string>>(() =>
+      Object.fromEntries(
+        inputs
+          .filter((i): i is NumberInput => i.kind !== "select" && i.kind !== "date" && i.kind !== "time" && !!(i as NumberInput).units?.length)
+          .map((i) => [i.key, i.defaultUnit ?? i.units![0].value])
+      )
+    );
 
     const set = (key: string) => (v: string) =>
       setValues((prev) => ({ ...prev, [key]: v }));
+    const setUnit = (key: string) => (v: string) =>
+      setUnitChoice((prev) => ({ ...prev, [key]: v }));
 
     const result = useMemo(() => {
       const n: Record<string, number> = {};
       const s: Record<string, string> = {};
       for (const i of inputs) {
         s[i.key] = values[i.key] ?? "";
-        if (i.kind !== "select" && i.kind !== "date" && i.kind !== "time") n[i.key] = parseEng(values[i.key] ?? "");
+        if (i.kind !== "select" && i.kind !== "date" && i.kind !== "time") {
+          const raw = parseEng(values[i.key] ?? "");
+          const unitsList = (i as NumberInput).units;
+          if (unitsList?.length) {
+            const chosen = unitsList.find((u) => u.value === unitChoice[i.key]) ?? unitsList[0];
+            n[i.key] = raw * chosen.toBase;
+          } else {
+            n[i.key] = raw;
+          }
+        }
       }
       try {
         return compute({ n, s });
       } catch {
         return null;
       }
-    }, [values]);
+    }, [values, unitChoice]);
 
     const colClass =
       columns === 2 ? "lg:grid-cols-2" : columns === 3 ? "lg:grid-cols-3" : "lg:grid-cols-4";
@@ -156,6 +184,39 @@ export function makeTool(spec: Spec): Tool {
                     <option key={o.value} value={o.value}>{o.label}</option>
                   ))}
                 </select>
+                {input.hint ? (
+                  <p className="mt-1 text-xs text-ink-soft">{input.hint}</p>
+                ) : null}
+              </div>
+            ) : input.units?.length ? (
+              <div key={input.key}>
+                <label className="field-label" htmlFor={`f-${input.key}`}>
+                  {input.label}
+                </label>
+                <div className="flex gap-1.5">
+                  <input
+                    id={`f-${input.key}`}
+                    className="field-input flex-1"
+                    inputMode="decimal"
+                    value={values[input.key]}
+                    aria-invalid={
+                      (!input.optional &&
+                        values[input.key] !== "" &&
+                        !Number.isFinite(parseEng(values[input.key]))) || undefined
+                    }
+                    onChange={(e) => set(input.key)(e.target.value)}
+                  />
+                  <select
+                    className="field-input w-auto shrink-0"
+                    aria-label={`Unit for ${input.label}`}
+                    value={unitChoice[input.key] ?? input.units[0].value}
+                    onChange={(e) => setUnit(input.key)(e.target.value)}
+                  >
+                    {input.units.map((u) => (
+                      <option key={u.value} value={u.value}>{u.label}</option>
+                    ))}
+                  </select>
+                </div>
                 {input.hint ? (
                   <p className="mt-1 text-xs text-ink-soft">{input.hint}</p>
                 ) : null}
