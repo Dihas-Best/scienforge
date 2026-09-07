@@ -207,7 +207,8 @@ export function makeTool(spec: Spec): Tool {
                     onChange={(e) => set(input.key)(e.target.value)}
                   />
                   <select
-                    className="field-input w-auto shrink-0"
+                    className="field-input shrink-0"
+                    style={{ width: "7.5rem" }}
                     aria-label={`Unit for ${input.label}`}
                     value={unitChoice[input.key] ?? input.units[0].value}
                     onChange={(e) => setUnit(input.key)(e.target.value)}
