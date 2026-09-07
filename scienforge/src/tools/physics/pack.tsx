@@ -18,7 +18,11 @@ export const newtonsSecondLaw = makeTool({
   related: ["projectile-motion", "kinetic-energy"],
   columns: 4,
   inputs: [
-    { key: "m", label: "Mass", unit: "kg", initial: "1500" },
+    { key: "m", label: "Mass", initial: "1500",
+      units: [
+        { value: "kg", label: "kg", toBase: 1 },
+        { value: "lb", label: "lb", toBase: 0.45359237 },
+      ] },
     { key: "a", label: "Acceleration", unit: "m/s²", initial: "3" },
     { key: "t", label: "Time applied", unit: "s", initial: "", optional: true },
     { key: "g", label: "Gravity", unit: "m/s²", initial: "9.81" },
@@ -82,9 +86,24 @@ export const kineticEnergy = makeTool({
   related: ["force-mass-acceleration", "momentum"],
   columns: 4,
   inputs: [
-    { key: "m", label: "Mass", unit: "kg", initial: "2" },
-    { key: "v", label: "Speed", unit: "m/s", initial: "20" },
-    { key: "h", label: "Height", unit: "m", initial: "10", optional: true },
+    { key: "m", label: "Mass", initial: "2",
+      units: [
+        { value: "kg", label: "kg", toBase: 1 },
+        { value: "lb", label: "lb", toBase: 0.45359237 },
+      ] },
+    { key: "v", label: "Speed", initial: "20",
+      units: [
+        { value: "mps", label: "m/s", toBase: 1 },
+        { value: "kmh", label: "km/h", toBase: 0.2777778 },
+        { value: "mph", label: "mph", toBase: 0.44704 },
+      ] },
+    { key: "h", label: "Height", initial: "10", optional: true,
+      units: [
+        { value: "m", label: "m", toBase: 1 },
+        { value: "cm", label: "cm", toBase: 0.01 },
+        { value: "in", label: "in", toBase: 0.0254 },
+        { value: "ft", label: "ft", toBase: 0.3048 },
+      ] },
     { key: "g", label: "Gravity", unit: "m/s²", initial: "9.81" },
   ],
   compute: ({ n }) => {
@@ -153,10 +172,28 @@ export const momentum = makeTool({
   related: ["kinetic-energy", "force-mass-acceleration"],
   columns: 4,
   inputs: [
-    { key: "m1", label: "Mass 1", unit: "kg", initial: "2" },
-    { key: "v1", label: "Velocity 1", unit: "m/s", initial: "5" },
-    { key: "m2", label: "Mass 2", unit: "kg", initial: "3" },
-    { key: "v2", label: "Velocity 2", unit: "m/s", initial: "-2" },
+    { key: "m1", label: "Mass 1", initial: "2",
+      units: [
+        { value: "kg", label: "kg", toBase: 1 },
+        { value: "lb", label: "lb", toBase: 0.45359237 },
+      ] },
+    { key: "v1", label: "Velocity 1", initial: "5",
+      units: [
+        { value: "mps", label: "m/s", toBase: 1 },
+        { value: "kmh", label: "km/h", toBase: 0.2777778 },
+        { value: "mph", label: "mph", toBase: 0.44704 },
+      ] },
+    { key: "m2", label: "Mass 2", initial: "3",
+      units: [
+        { value: "kg", label: "kg", toBase: 1 },
+        { value: "lb", label: "lb", toBase: 0.45359237 },
+      ] },
+    { key: "v2", label: "Velocity 2", initial: "-2",
+      units: [
+        { value: "mps", label: "m/s", toBase: 1 },
+        { value: "kmh", label: "km/h", toBase: 0.2777778 },
+        { value: "mph", label: "mph", toBase: 0.44704 },
+      ] },
   ],
   compute: ({ n }) => {
     if (!(n.m1 > 0) || !(n.m2 > 0) || !Number.isFinite(n.v1) || !Number.isFinite(n.v2)) return null;
@@ -223,9 +260,24 @@ export const circularMotion = makeTool({
   keywords: ["centripetal force", "circular motion", "angular velocity", "rpm", "g-force"],
   columns: 3,
   inputs: [
-    { key: "m", label: "Mass", unit: "kg", initial: "1" },
-    { key: "v", label: "Tangential speed", unit: "m/s", initial: "10" },
-    { key: "r", label: "Radius", unit: "m", initial: "2" },
+    { key: "m", label: "Mass", initial: "1",
+      units: [
+        { value: "kg", label: "kg", toBase: 1 },
+        { value: "lb", label: "lb", toBase: 0.45359237 },
+      ] },
+    { key: "v", label: "Tangential speed", initial: "10",
+      units: [
+        { value: "mps", label: "m/s", toBase: 1 },
+        { value: "kmh", label: "km/h", toBase: 0.2777778 },
+        { value: "mph", label: "mph", toBase: 0.44704 },
+      ] },
+    { key: "r", label: "Radius", initial: "2",
+      units: [
+        { value: "m", label: "m", toBase: 1 },
+        { value: "cm", label: "cm", toBase: 0.01 },
+        { value: "in", label: "in", toBase: 0.0254 },
+        { value: "ft", label: "ft", toBase: 0.3048 },
+      ] },
   ],
   compute: ({ n }) => {
     if (!(n.r > 0) || !Number.isFinite(n.v)) return null;
@@ -288,9 +340,19 @@ export const pendulum = makeTool({
   keywords: ["pendulum", "period", "oscillation", "shm", "frequency"],
   columns: 3,
   inputs: [
-    { key: "l", label: "Length", unit: "m", initial: "1" },
+    { key: "l", label: "Length", initial: "1",
+      units: [
+        { value: "m", label: "m", toBase: 1 },
+        { value: "cm", label: "cm", toBase: 0.01 },
+        { value: "in", label: "in", toBase: 0.0254 },
+        { value: "ft", label: "ft", toBase: 0.3048 },
+      ] },
     { key: "g", label: "Gravity", unit: "m/s²", initial: "9.81" },
-    { key: "th", label: "Amplitude", unit: "degrees", initial: "10", optional: true },
+    { key: "th", label: "Amplitude", initial: "10", optional: true,
+      units: [
+        { value: "deg", label: "degrees", toBase: 1 },
+        { value: "rad", label: "radians", toBase: 57.29577951 },
+      ] },
   ],
   compute: ({ n }) => {
     if (!(n.l > 0) || !(n.g > 0)) return null;
@@ -356,9 +418,20 @@ export const waveSpeed = makeTool({
   keywords: ["wave speed", "wavelength", "frequency", "v=fλ", "period"],
   columns: 3,
   inputs: [
-    { key: "v", label: "Wave speed", unit: "m/s", initial: "343", hint: "Sound in air 343, light 3e8" },
+    { key: "v", label: "Wave speed", initial: "343", hint: "Sound in air 343, light 3e8",
+      units: [
+        { value: "mps", label: "m/s", toBase: 1 },
+        { value: "kmh", label: "km/h", toBase: 0.2777778 },
+        { value: "mph", label: "mph", toBase: 0.44704 },
+      ] },
     { key: "f", label: "Frequency", unit: "Hz", initial: "440" },
-    { key: "lam", label: "Wavelength", unit: "m", initial: "", optional: true },
+    { key: "lam", label: "Wavelength", initial: "", optional: true,
+      units: [
+        { value: "m", label: "m", toBase: 1 },
+        { value: "cm", label: "cm", toBase: 0.01 },
+        { value: "in", label: "in", toBase: 0.0254 },
+        { value: "ft", label: "ft", toBase: 0.3048 },
+      ] },
   ],
   compute: ({ n }) => {
     let v = n.v, f = n.f, lam = n.lam;
@@ -429,9 +502,27 @@ export const lensEquation = makeTool({
   keywords: ["thin lens", "focal length", "magnification", "image distance", "optics"],
   columns: 3,
   inputs: [
-    { key: "f", label: "Focal length", unit: "m", initial: "0.05", hint: "Negative for a diverging lens." },
-    { key: "do", label: "Object distance", unit: "m", initial: "0.15" },
-    { key: "ho", label: "Object height", unit: "m", initial: "", optional: true },
+    { key: "f", label: "Focal length", initial: "0.05", hint: "Negative for a diverging lens.",
+      units: [
+        { value: "m", label: "m", toBase: 1 },
+        { value: "cm", label: "cm", toBase: 0.01 },
+        { value: "in", label: "in", toBase: 0.0254 },
+        { value: "ft", label: "ft", toBase: 0.3048 },
+      ] },
+    { key: "do", label: "Object distance", initial: "0.15",
+      units: [
+        { value: "m", label: "m", toBase: 1 },
+        { value: "cm", label: "cm", toBase: 0.01 },
+        { value: "in", label: "in", toBase: 0.0254 },
+        { value: "ft", label: "ft", toBase: 0.3048 },
+      ] },
+    { key: "ho", label: "Object height", initial: "", optional: true,
+      units: [
+        { value: "m", label: "m", toBase: 1 },
+        { value: "cm", label: "cm", toBase: 0.01 },
+        { value: "in", label: "in", toBase: 0.0254 },
+        { value: "ft", label: "ft", toBase: 0.3048 },
+      ] },
   ],
   compute: ({ n }) => {
     if (!Number.isFinite(n.f) || !Number.isFinite(n.do) || n.f === 0) return null;
@@ -576,8 +667,18 @@ export const density = makeTool({
   keywords: ["density", "mass", "volume", "specific gravity", "buoyancy"],
   columns: 3,
   inputs: [
-    { key: "m", label: "Mass", unit: "kg", initial: "2.7" },
-    { key: "v", label: "Volume", unit: "m³", initial: "0.001" },
+    { key: "m", label: "Mass", initial: "2.7",
+      units: [
+        { value: "kg", label: "kg", toBase: 1 },
+        { value: "lb", label: "lb", toBase: 0.45359237 },
+      ] },
+    { key: "v", label: "Volume", initial: "0.001",
+      units: [
+        { value: "m3", label: "m\u00b3", toBase: 1 },
+        { value: "L", label: "L", toBase: 0.001 },
+        { value: "ft3", label: "ft\u00b3", toBase: 0.0283168 },
+        { value: "gal", label: "US gal", toBase: 0.00378541 },
+      ] },
     { key: "fluid", label: "Fluid density", unit: "kg/m³", initial: "1000", optional: true },
   ],
   compute: ({ n }) => {
@@ -651,7 +752,11 @@ export const specificHeat = makeTool({
   related: ["thermal-expansion"],
   columns: 4,
   inputs: [
-    { key: "m", label: "Mass", unit: "kg", initial: "2" },
+    { key: "m", label: "Mass", initial: "2",
+      units: [
+        { value: "kg", label: "kg", toBase: 1 },
+        { value: "lb", label: "lb", toBase: 0.45359237 },
+      ] },
     { kind: "select", key: "sub", label: "Substance", initial: "4186",
       options: [
         { value: "4186", label: "Water (liquid)" },
@@ -665,7 +770,11 @@ export const specificHeat = makeTool({
         { value: "840", label: "Glass" },
         { value: "1700", label: "Wood" },
       ] },
-    { key: "dt", label: "Temperature change", unit: "°C", initial: "50" },
+    { key: "dt", label: "Temperature change", initial: "50",
+      units: [
+        { value: "C", label: "\u00b0C", toBase: 1 },
+        { value: "F", label: "\u00b0F", toBase: 0.5555556 },
+      ] },
     { key: "p", label: "Heater power", unit: "W", initial: "", optional: true },
   ],
   compute: ({ n, s }) => {
@@ -776,12 +885,23 @@ export const hookesLaw = makeTool({
   columns: 3,
   inputs: [
     { key: "k", label: "Spring constant", unit: "N/m", initial: "200", optional: true },
-    { key: "x", label: "Extension", unit: "m", initial: "0.05", optional: true },
+    { key: "x", label: "Extension", initial: "0.05", optional: true,
+      units: [
+        { value: "m", label: "m", toBase: 1 },
+        { value: "cm", label: "cm", toBase: 0.01 },
+        { value: "in", label: "in", toBase: 0.0254 },
+        { value: "ft", label: "ft", toBase: 0.3048 },
+      ] },
     { key: "f", label: "Force applied", unit: "N", initial: "", optional: true },
-    { key: "m", label: "Mass on spring", unit: "kg", initial: "", optional: true },
+    { key: "m", label: "Mass on spring", initial: "", optional: true,
+      units: [
+        { value: "kg", label: "kg", toBase: 1 },
+        { value: "lb", label: "lb", toBase: 0.45359237 },
+      ] },
   ],
   compute: ({ n }) => {
     let k = n.k, x = n.x, f = n.f;
+    // A hanging mass defines the force directly.
     if (!Number.isFinite(f) && Number.isFinite(n.m) && n.m > 0) f = n.m * 9.80665;
     const known = [k, x, f].filter(Number.isFinite).length;
     if (known < 2) return null;
@@ -896,8 +1016,12 @@ export const snellsLaw = makeTool({
         { value: "1.490", label: "Acrylic (1.49)" },
         { value: "2.417", label: "Diamond (2.42)" },
       ] },
-    { key: "a1", label: "Angle of incidence", unit: "degrees", initial: "30",
-      hint: "Measured from the normal, not the surface" },
+    { key: "a1", label: "Angle of incidence", initial: "30",
+      hint: "Measured from the normal, not the surface",
+      units: [
+        { value: "deg", label: "degrees", toBase: 1 },
+        { value: "rad", label: "radians", toBase: 57.29577951 },
+      ] },
   ],
   compute: ({ n, s }) => {
     const n1 = Number(s.m1), n2 = Number(s.m2);
@@ -1004,7 +1128,13 @@ export const thermalExpansion = makeTool({
   related: ["specific-heat"],
   columns: 3,
   inputs: [
-    { key: "l", label: "Original length", unit: "m", initial: "10" },
+    { key: "l", label: "Original length", initial: "10",
+      units: [
+        { value: "m", label: "m", toBase: 1 },
+        { value: "cm", label: "cm", toBase: 0.01 },
+        { value: "in", label: "in", toBase: 0.0254 },
+        { value: "ft", label: "ft", toBase: 0.3048 },
+      ] },
     { kind: "select", key: "mat", label: "Material", initial: "0.000023",
       options: [
         { value: "0.000023", label: "Aluminium (23 µm/m·K)" },
@@ -1016,7 +1146,11 @@ export const thermalExpansion = makeTool({
         { value: "0.000029", label: "Lead (29 µm/m·K)" },
         { value: "0.00007", label: "PVC (70 µm/m·K)" },
       ] },
-    { key: "dt", label: "Temperature change", unit: "°C", initial: "40" },
+    { key: "dt", label: "Temperature change", initial: "40",
+      units: [
+        { value: "C", label: "\u00b0C", toBase: 1 },
+        { value: "F", label: "\u00b0F", toBase: 0.5555556 },
+      ] },
   ],
   compute: ({ n, s }) => {
     const alpha = Number(s.mat);
