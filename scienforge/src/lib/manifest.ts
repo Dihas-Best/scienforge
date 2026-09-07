@@ -638,6 +638,132 @@ export const MANIFEST: ToolMeta[] = [
     ]
   },
   {
+    "slug": "mortgage-payment",
+    "category": "finance",
+    "group": "Borrowing",
+    "title": "Mortgage payment calculator",
+    "label": "Mortgage payment",
+    "description": "Calculate the monthly mortgage payment from home price, down payment, interest rate and loan term, with total interest over the life of the loan.",
+    "keywords": [
+      "mortgage calculator",
+      "mortgage payment",
+      "home loan",
+      "monthly mortgage"
+    ],
+    "related": [
+      "loan-payment",
+      "auto-loan"
+    ]
+  },
+  {
+    "slug": "auto-loan",
+    "category": "finance",
+    "group": "Borrowing",
+    "title": "Auto loan calculator",
+    "label": "Auto loan",
+    "description": "Calculate the monthly payment on a car loan from the vehicle price, down payment, trade-in value, interest rate and term.",
+    "keywords": [
+      "auto loan calculator",
+      "car loan",
+      "car payment calculator",
+      "vehicle financing"
+    ],
+    "related": [
+      "mortgage-payment",
+      "loan-payment"
+    ]
+  },
+  {
+    "slug": "retirement-savings",
+    "category": "finance",
+    "group": "Planning",
+    "title": "Retirement savings calculator",
+    "label": "Retirement savings",
+    "description": "Project how a starting balance and regular contributions grow over time at a given rate of return, for retirement or any long-term goal.",
+    "keywords": [
+      "retirement calculator",
+      "retirement savings",
+      "future value",
+      "401k calculator",
+      "compound growth"
+    ],
+    "related": [
+      "compound-interest",
+      "investment-return"
+    ]
+  },
+  {
+    "slug": "investment-return",
+    "category": "finance",
+    "group": "Planning",
+    "title": "Investment return (CAGR) calculator",
+    "label": "Investment return",
+    "description": "Calculate the compound annual growth rate of an investment from its starting value, ending value and holding period.",
+    "keywords": [
+      "cagr calculator",
+      "investment return calculator",
+      "annualized return",
+      "compound annual growth rate"
+    ],
+    "related": [
+      "compound-interest",
+      "retirement-savings"
+    ]
+  },
+  {
+    "slug": "savings-goal",
+    "category": "finance",
+    "group": "Planning",
+    "title": "Savings goal calculator",
+    "label": "Savings goal",
+    "description": "Find the monthly contribution needed to reach a savings target by a given date, accounting for interest earned along the way.",
+    "keywords": [
+      "savings goal calculator",
+      "how much to save",
+      "savings target",
+      "monthly savings needed"
+    ],
+    "related": [
+      "retirement-savings",
+      "compound-interest"
+    ]
+  },
+  {
+    "slug": "credit-card-payoff",
+    "category": "finance",
+    "group": "Borrowing",
+    "title": "Credit card payoff calculator",
+    "label": "Credit card payoff",
+    "description": "Find how long it takes to pay off a credit card balance at a fixed monthly payment, and the total interest paid along the way.",
+    "keywords": [
+      "credit card payoff calculator",
+      "credit card debt",
+      "minimum payment calculator",
+      "pay off credit card"
+    ],
+    "related": [
+      "loan-payment",
+      "simple-interest"
+    ]
+  },
+  {
+    "slug": "debt-to-income-ratio",
+    "category": "finance",
+    "group": "Planning",
+    "title": "Debt-to-income ratio calculator",
+    "label": "Debt-to-income ratio",
+    "description": "Calculate your debt-to-income ratio from monthly debt payments and gross income, with the thresholds lenders typically use.",
+    "keywords": [
+      "debt to income ratio",
+      "dti calculator",
+      "dti ratio",
+      "mortgage qualification"
+    ],
+    "related": [
+      "mortgage-payment"
+    ]
+  },
+  {
     "slug": "bmi",
     "category": "health",
     "group": "Body composition",
