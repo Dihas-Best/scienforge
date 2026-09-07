@@ -9,11 +9,16 @@ import type { Tool } from "@/lib/types";
 
 function Calculator() {
   const [v0, setV0] = useState("20");
+  const [v0Unit, setV0Unit] = useState<"mps" | "kmh" | "mph">("mps");
   const [angle, setAngle] = useState("45");
   const [h0, setH0] = useState("0");
+  const [h0Unit, setH0Unit] = useState<"m" | "cm" | "ft" | "in">("m");
   const [g, setG] = useState("9.81");
 
-  const V = parseEng(v0), A = parseEng(angle), H = parseEng(h0), G = parseEng(g);
+  const speedFactor = v0Unit === "mps" ? 1 : v0Unit === "kmh" ? 0.2777778 : 0.44704;
+  const lengthFactor = h0Unit === "m" ? 1 : h0Unit === "cm" ? 0.01 : h0Unit === "ft" ? 0.3048 : 0.0254;
+
+  const V = parseEng(v0) * speedFactor, A = parseEng(angle), H = parseEng(h0) * lengthFactor, G = parseEng(g);
   const ok = [V, A, H, G].every(Number.isFinite) && G > 0 && V >= 0;
 
   const rad = (A * Math.PI) / 180;
@@ -33,9 +38,54 @@ function Calculator() {
   return (
     <div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Field label="Launch speed" unit="m/s" value={v0} onChange={setV0} />
+        <div>
+          <label className="field-label" htmlFor="pm-v0">Launch speed</label>
+          <div className="flex gap-1.5">
+            <input
+              id="pm-v0"
+              className="field-input flex-1"
+              inputMode="decimal"
+              value={v0}
+              onChange={(e) => setV0(e.target.value)}
+            />
+            <select
+              className="field-input shrink-0"
+              style={{ width: "7.5rem" }}
+              aria-label="Unit for launch speed"
+              value={v0Unit}
+              onChange={(e) => setV0Unit(e.target.value as typeof v0Unit)}
+            >
+              <option value="mps">m/s</option>
+              <option value="kmh">km/h</option>
+              <option value="mph">mph</option>
+            </select>
+          </div>
+        </div>
         <Field label="Launch angle" unit="degrees" value={angle} onChange={setAngle} />
-        <Field label="Launch height" unit="m" value={h0} onChange={setH0} />
+        <div>
+          <label className="field-label" htmlFor="pm-h0">Launch height</label>
+          <div className="flex gap-1.5">
+            <input
+              id="pm-h0"
+              className="field-input flex-1"
+              inputMode="decimal"
+              value={h0}
+              onChange={(e) => setH0(e.target.value)}
+            />
+            <select
+              className="field-input shrink-0"
+              style={{ width: "7.5rem" }}
+              aria-label="Unit for launch height"
+              value={h0Unit}
+              onChange={(e) => setH0Unit(e.target.value as typeof h0Unit)}
+            >
+              <option value="m">m</option>
+              <option value="cm">cm</option>
+              <option value="ft">ft</option>
+              <option value="in">in</option>
+            </select>
+          </div>
+        </div>
         <Field label="Gravity" unit="m/s²" value={g} onChange={setG} hint="Earth 9.81, Moon 1.62, Mars 3.72" />
       </div>
 
