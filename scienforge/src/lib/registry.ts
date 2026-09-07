@@ -61,6 +61,9 @@ export const TOOLS: Tool[] = [
   health.bmi, health.bmr, health.oneRepMax, health.pace,
 
   finance.compoundInterest, finance.loanPayment, finance.simpleInterest,
+  finance.mortgagePayment, finance.autoLoan, finance.retirementSavings,
+  finance.investmentReturn, finance.savingsGoal, finance.creditCardPayoff,
+  finance.debtToIncome,
 ];
 
 const BY_SLUG = new Map(TOOLS.map((t) => [t.slug, t]));
