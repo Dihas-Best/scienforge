@@ -9,11 +9,16 @@ import type { Tool } from "@/lib/types";
 
 function Calculator() {
   const [mass, setMass] = useState("");
+  const [massUnit, setMassUnit] = useState<"g" | "oz" | "kg">("g");
   const [mw, setMw] = useState("58.44");
   const [vol, setVol] = useState("0.5");
+  const [volUnit, setVolUnit] = useState<"L" | "mL" | "gal">("L");
   const [conc, setConc] = useState("0.1");
 
-  const M = parseEng(mass), MW = parseEng(mw), V = parseEng(vol), C = parseEng(conc);
+  const massFactor = massUnit === "g" ? 1 : massUnit === "kg" ? 1000 : 28.349523125;
+  const volFactor = volUnit === "L" ? 1 : volUnit === "mL" ? 0.001 : 3.78541;
+
+  const M = parseEng(mass) * massFactor, MW = parseEng(mw), V = parseEng(vol) * volFactor, C = parseEng(conc);
 
   // Solve for whichever is missing, preferring mass.
   let outMass = M, outConc = C;
@@ -27,9 +32,54 @@ function Calculator() {
   return (
     <div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Field label="Mass of solute" unit="g" value={mass} onChange={setMass} placeholder="leave blank to solve" />
+        <div>
+          <label className="field-label" htmlFor="mol-mass">Mass of solute</label>
+          <div className="flex gap-1.5">
+            <input
+              id="mol-mass"
+              className="field-input flex-1"
+              inputMode="decimal"
+              value={mass}
+              placeholder="leave blank to solve"
+              onChange={(e) => setMass(e.target.value)}
+            />
+            <select
+              className="field-input shrink-0"
+              style={{ width: "7.5rem" }}
+              aria-label="Unit for mass of solute"
+              value={massUnit}
+              onChange={(e) => setMassUnit(e.target.value as typeof massUnit)}
+            >
+              <option value="g">g</option>
+              <option value="kg">kg</option>
+              <option value="oz">oz</option>
+            </select>
+          </div>
+        </div>
         <Field label="Molar mass" unit="g/mol" value={mw} onChange={setMw} hint="NaCl = 58.44" />
-        <Field label="Solution volume" unit="L" value={vol} onChange={setVol} />
+        <div>
+          <label className="field-label" htmlFor="mol-vol">Solution volume</label>
+          <div className="flex gap-1.5">
+            <input
+              id="mol-vol"
+              className="field-input flex-1"
+              inputMode="decimal"
+              value={vol}
+              onChange={(e) => setVol(e.target.value)}
+            />
+            <select
+              className="field-input shrink-0"
+              style={{ width: "7.5rem" }}
+              aria-label="Unit for solution volume"
+              value={volUnit}
+              onChange={(e) => setVolUnit(e.target.value as typeof volUnit)}
+            >
+              <option value="L">L</option>
+              <option value="mL">mL</option>
+              <option value="gal">US gal</option>
+            </select>
+          </div>
+        </div>
         <Field label="Concentration" unit="mol/L" value={conc} onChange={setConc} />
       </div>
       <p className="mt-2 text-xs text-ink-soft">
