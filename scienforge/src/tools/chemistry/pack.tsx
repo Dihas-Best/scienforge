@@ -13,8 +13,20 @@ export const idealGas = makeTool({
   keywords: ["ideal gas law", "pv=nrt", "pressure", "moles", "gas constant"],
   columns: 4,
   inputs: [
-    { key: "p", label: "Pressure", unit: "Pa", initial: "101325" },
-    { key: "v", label: "Volume", unit: "m³", initial: "0.0224" },
+    { key: "p", label: "Pressure", initial: "101325",
+      units: [
+        { value: "Pa", label: "Pa", toBase: 1 },
+        { value: "kPa", label: "kPa", toBase: 1000 },
+        { value: "atm", label: "atm", toBase: 101325 },
+        { value: "psi", label: "psi", toBase: 6894.76 },
+        { value: "bar", label: "bar", toBase: 100000 },
+      ] },
+    { key: "v", label: "Volume", initial: "0.0224",
+      units: [
+        { value: "m3", label: "m\u00b3", toBase: 1 },
+        { value: "L", label: "L", toBase: 0.001 },
+        { value: "ft3", label: "ft\u00b3", toBase: 0.0283168 },
+      ] },
     { key: "t", label: "Temperature", unit: "K", initial: "273.15" },
     { key: "mm", label: "Molar mass", unit: "g/mol", initial: "", optional: true },
   ],
@@ -105,8 +117,18 @@ export const dilution = makeTool({
   inputs: [
     { key: "c1", label: "Stock concentration", initial: "2" },
     { key: "c2", label: "Target concentration", initial: "0.1" },
-    { key: "v2", label: "Target volume", unit: "L", initial: "0.25" },
-    { key: "v1", label: "Or stock volume", unit: "L", initial: "", optional: true },
+    { key: "v2", label: "Target volume", initial: "0.25",
+      units: [
+        { value: "L", label: "L", toBase: 1 },
+        { value: "mL", label: "mL", toBase: 0.001 },
+        { value: "gal", label: "US gal", toBase: 3.78541 },
+      ] },
+    { key: "v1", label: "Or stock volume", initial: "", optional: true,
+      units: [
+        { value: "L", label: "L", toBase: 1 },
+        { value: "mL", label: "mL", toBase: 0.001 },
+        { value: "gal", label: "US gal", toBase: 3.78541 },
+      ] },
   ],
   compute: ({ n }) => {
     if (!(n.c1 > 0) || !(n.c2 > 0)) return null;
@@ -274,7 +296,12 @@ export const molarMass = makeTool({
   inputs: [
     { key: "formula", label: "Chemical formula", initial: "Ca(OH)2",
       hint: "Case matters — CO is carbon monoxide, Co is cobalt" },
-    { key: "mass", label: "Sample mass", unit: "g", initial: "", optional: true },
+    { key: "mass", label: "Sample mass", initial: "", optional: true,
+      units: [
+        { value: "g", label: "g", toBase: 1 },
+        { value: "kg", label: "kg", toBase: 1000 },
+        { value: "oz", label: "oz", toBase: 28.349523125 },
+      ] },
   ],
   compute: ({ n, s }) => {
     const parsed = parseFormula(String(s.formula ?? ""));
@@ -403,7 +430,12 @@ export const limitingReagent = makeTool({
     { key: "coeffB", label: "Stoichiometric coefficient of B", initial: "1" },
     { key: "coeffP", label: "Stoichiometric coefficient of product", initial: "2" },
     { key: "mwP", label: "Molar mass of product", unit: "g/mol", initial: "18.02" },
-    { key: "actual", label: "Actual mass obtained", unit: "g", initial: "", optional: true },
+    { key: "actual", label: "Actual mass obtained", initial: "", optional: true,
+      units: [
+        { value: "g", label: "g", toBase: 1 },
+        { value: "kg", label: "kg", toBase: 1000 },
+        { value: "oz", label: "oz", toBase: 28.349523125 },
+      ] },
   ],
   compute: ({ n }) => {
     if (![n.molA, n.coeffA, n.molB, n.coeffB, n.coeffP, n.mwP].every((v) => Number.isFinite(v) && v > 0)) {
