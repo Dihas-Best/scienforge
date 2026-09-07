@@ -101,7 +101,11 @@ export const circleGeometry = makeTool({
   columns: 3,
   inputs: [
     { key: "r", label: "Radius", initial: "5" },
-    { key: "ang", label: "Sector angle", unit: "degrees", initial: "60", optional: true },
+    { key: "ang", label: "Sector angle", initial: "60", optional: true,
+      units: [
+        { value: "deg", label: "degrees", toBase: 1 },
+        { value: "rad", label: "radians", toBase: 57.29577951 },
+      ] },
     { key: "d", label: "Or enter diameter", initial: "", optional: true },
   ],
   compute: ({ n }) => {
@@ -313,7 +317,7 @@ export const gcfLcm = makeTool({
       rows: [
         { label: "Least common multiple", value: String(lcm) },
         { label: "Coprime?", value: gcf === 1 ? "Yes" : "No" },
-        ...nums.map((v) => ({ label: `Factors of ${v}`, value: factor(v) })),
+        ...nums.map((v, i) => ({ label: `Factors of ${v}`, value: factor(v) })),
         ...(nums.length === 2
           ? [{ label: "Check: GCF × LCM", value: `${gcf * lcm} = ${nums[0]} × ${nums[1]}` }]
           : []),
@@ -520,6 +524,7 @@ export const scientificNotation = makeTool({
     const sf = Number.isFinite(n.sf) && n.sf >= 1 && n.sf <= 15 ? Math.round(n.sf) : 6;
     const exp = Math.floor(Math.log10(Math.abs(n.v)));
     const mantissa = n.v / 10 ** exp;
+    // Engineering notation uses exponents that are multiples of three.
     const engExp = Math.floor(exp / 3) * 3;
     const engMant = n.v / 10 ** engExp;
     const sup = (e: number) =>
