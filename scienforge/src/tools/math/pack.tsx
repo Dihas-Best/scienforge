@@ -36,14 +36,77 @@ export const percentage = makeTool({
   },
   Article: () => (
     <>
-      <p>A percentage is a fraction with 100 on the bottom. Every percentage question reduces to one of three shapes, and knowing which one you have is most of the work.</p>
-      <Formula>part = whole × (p / 100){"\n"}p = (part / whole) × 100{"\n"}change = ((new − old) / old) × 100</Formula>
+      <p>
+        A percentage is a fraction with 100 fixed on the bottom. Every percentage question
+        reduces to one of three underlying shapes — finding a part from a whole, finding
+        what fraction one number is of another, or finding how much something changed —
+        and knowing which shape you are looking at is most of the actual work. The
+        arithmetic itself is trivial once the shape is identified.
+      </p>
+      <Formula>
+        part = whole × (p / 100){"\n"}
+        p = (part / whole) × 100{"\n"}
+        change = ((new − old) / old) × 100
+      </Formula>
+
+      <h2>The three shapes, worked through</h2>
+      <p>
+        <strong>Finding a part.</strong> &ldquo;What is 15% of 80?&rdquo; Multiply: 80 ×
+        0.15 = 12. This is the most mechanical of the three and rarely trips anyone up.
+      </p>
+      <p>
+        <strong>Finding a percentage.</strong> &ldquo;80 is what percent of 120?&rdquo;
+        Divide the part by the whole and multiply by 100: (80/120) × 100 = 66.7%. The
+        common error here is dividing the wrong number by the other — always divide the
+        smaller reference quantity into the total it is being compared against, not the
+        other way round.
+      </p>
+      <p>
+        <strong>Finding a change.</strong> &ldquo;A price moved from 80 to 120 — what
+        percentage change is that?&rdquo; Subtract, then divide by the <em>original</em>
+        value: (120 − 80) / 80 × 100 = 50%. Dividing by the new value instead of the
+        original is the single most common percentage-change mistake, and it silently
+        produces a smaller, wrong answer — dividing by 120 here would incorrectly give
+        33.3%.
+      </p>
+
       <h2>Increase then decrease does not return you home</h2>
-      <p>Add 20% to 100 and you get 120. Take 20% off 120 and you get 96, not 100. The two percentages are taken of different bases. To reverse a 20% increase you must divide by 1.2, which is a 16.7% decrease. This is behind a lot of misleading retail pricing and a lot of arithmetic errors in spreadsheets.</p>
-      <h2>Percentage points versus percent</h2>
-      <p>If an interest rate moves from 4% to 6%, that is a rise of two percentage points but a rise of 50 percent. Both are correct and they mean different things. News coverage frequently blurs the two, and the difference is often large.</p>
-      <h2>Compounding percentages</h2>
-      <p>Successive changes multiply rather than add. Three consecutive 10% increases give a factor of 1.1³ = 1.331, a 33.1% rise, not 30%. For the same reason, a 50% loss requires a 100% gain to recover.</p>
+      <p>
+        Add 20% to 100 and you get 120. Take 20% off 120 and you get 96, not 100. The two
+        percentages are calculated on different bases — the increase is 20% of 100, but
+        the decrease is 20% of 120, a larger number, so it removes more than was added.
+        To exactly reverse a 20% increase you must divide by 1.2 rather than subtract 20%,
+        which works out to a 16.7% decrease, not 20%. This asymmetry is behind a
+        surprising amount of misleading retail pricing — a store advertising &ldquo;40%
+        off, then an extra 20% off&rdquo; is not offering 60% off; it is offering 1 − (0.6
+        × 0.8) = 52% off, calculated by successively discounting what remains rather than
+        adding the two percentages together.
+      </p>
+
+      <h2>Percentage points versus percent — a distinction worth keeping straight</h2>
+      <p>
+        If an interest rate moves from 4% to 6%, that is a rise of <em>two percentage
+        points</em>, but it is a rise of <em>50 percent</em> relative to the original rate
+        (a change of 2 divided by the original 4, times 100). Both descriptions are
+        correct and they describe very different magnitudes. News coverage and marketing
+        material frequently blur the two — sometimes carelessly, sometimes because the
+        percent figure sounds more dramatic than the percentage-point one — and the gap
+        between them widens as the original percentage gets smaller. A rate moving from 1%
+        to 2% is only a single percentage point, but it is a 100% increase.
+      </p>
+
+      <h2>Compounding percentages multiply, they do not add</h2>
+      <p>
+        Successive percentage changes multiply rather than sum. Three consecutive 10%
+        increases give a factor of 1.1³ = 1.331, a 33.1% overall rise — not the 30% that
+        naive addition would suggest, because each 10% is taken on an already-larger base.
+        The same logic runs in reverse for losses: recovering from a 50% loss requires a
+        100% gain, not a 50% gain, since the 50% gain would only be calculated on the
+        already-diminished amount. This is one of the more counterintuitive but
+        consequential facts in everyday percentage arithmetic, and it is the entire reason
+        a portfolio that drops 50% and then rises 50% ends up smaller than where it
+        started, not back to even.
+      </p>
     </>
   ),
 });
@@ -79,14 +142,71 @@ export const rightTriangle = makeTool({
   },
   Article: () => (
     <>
-      <p>A right triangle is fully determined by any two of its sides, because the right angle fixes everything else. Pythagoras gives the third side and the inverse trigonometric functions give the angles.</p>
-      <Formula>a² + b² = c²&nbsp;&nbsp;&nbsp;sin A = a/c&nbsp;&nbsp;cos A = b/c&nbsp;&nbsp;tan A = a/b</Formula>
+      <p>
+        A right triangle is fully determined by any two of its sides, because the fixed
+        90° angle removes a degree of freedom that a general triangle does not have.
+        Pythagoras&rsquo; theorem gives the third side directly, and the inverse
+        trigonometric functions then give both remaining angles from the side lengths
+        alone — no additional measurement needed.
+      </p>
+      <Formula>
+        a² + b² = c²{"\n"}
+        sin A = a/c&nbsp;&nbsp;&nbsp;cos A = b/c&nbsp;&nbsp;&nbsp;tan A = a/b
+      </Formula>
+
       <h2>Which ratio to reach for</h2>
-      <p>The mnemonic SOH-CAH-TOA encodes it: sine is opposite over hypotenuse, cosine is adjacent over hypotenuse, tangent is opposite over adjacent. When you know two sides and want an angle, pick the ratio that uses the two sides you have and apply its inverse.</p>
+      <p>
+        The mnemonic SOH-CAH-TOA encodes the three ratios: sine is opposite over
+        hypotenuse, cosine is adjacent over hypotenuse, tangent is opposite over adjacent.
+        When you know two sides and want an angle, the practical approach is to pick
+        whichever ratio uses exactly the two sides you already have, then apply its
+        inverse function. Knowing the opposite and hypotenuse, for instance, points
+        directly at arcsine rather than arccosine or arctangent — there is no need to
+        solve for the third side first if the angle is all you actually want.
+      </p>
+
       <h2>The two acute angles always sum to 90°</h2>
-      <p>Because the interior angles of any triangle total 180° and one of them is already 90°. This is why sin A = cos B in a right triangle — the two angles are complementary, and that identity is where the &ldquo;co&rdquo; in cosine comes from.</p>
+      <p>
+        This follows from the fact that every triangle&rsquo;s interior angles sum to
+        180°, and a right triangle has already spent 90° of that budget on the right
+        angle itself. The two remaining angles are called complementary, and this
+        relationship is exactly why sin A = cos B for the two acute angles in the same
+        triangle — it is also the historical origin of the word &ldquo;cosine,&rdquo;
+        which literally means the sine of the complementary angle.
+      </p>
+
       <h2>Pythagorean triples</h2>
-      <p>Some right triangles have all three sides as whole numbers: 3-4-5, 5-12-13, 8-15-17, 7-24-25. Any multiple of a triple is another triple, which is why builders use the 3-4-5 method to square a corner with nothing more than a tape measure.</p>
+      <p>
+        Most right triangles have at least one irrational side length, but a special
+        family — Pythagorean triples — have all three sides as whole numbers. The
+        smallest and most famous is 3-4-5; others include 5-12-13, 8-15-17, and 7-24-25.
+        Any whole-number multiple of a triple is itself a valid triple (6-8-10 is just
+        3-4-5 doubled), which is why builders and carpenters use the 3-4-5 method —
+        measuring 3 units along one edge, 4 along the perpendicular edge, and checking the
+        diagonal comes out to exactly 5 — to verify a corner is truly square using nothing
+        more than a tape measure.
+      </p>
+
+      <h2>The inradius, and why it is worth knowing</h2>
+      <p>
+        Every triangle has an inscribed circle — the largest circle that fits entirely
+        inside it, touching all three sides. For a right triangle specifically, the radius
+        of that circle has an unusually clean formula: r = (a + b − c) / 2, using the two
+        legs and the hypotenuse. This shortcut does not exist in anywhere near as simple a
+        form for a general (non-right) triangle, where the inradius instead requires
+        knowing the full area and perimeter through a more general formula. It occasionally
+        shows up in construction and packing problems where the largest circular object
+        that fits in a right-angled corner needs to be sized quickly.
+      </p>
+
+      <h2>What two sides cannot tell you</h2>
+      <p>
+        Given only two sides, this calculator assumes they are the two legs (the sides
+        adjacent to the right angle), not one leg and the hypotenuse. If you have a leg
+        and the hypotenuse instead, the third side is found by rearranging Pythagoras
+        (b = √(c² − a²)) rather than the direct addition used here — worth checking
+        which two measurements you actually have before reading off a result.
+      </p>
     </>
   ),
 });
@@ -126,13 +246,71 @@ export const circleGeometry = makeTool({
   },
   Article: () => (
     <>
-      <p>Everything about a circle follows from its radius and the constant π, which is the ratio of any circle&rsquo;s circumference to its diameter. That ratio is the same for every circle, which is the whole reason π is interesting.</p>
-      <Formula>C = 2πr&nbsp;&nbsp;&nbsp;A = πr²&nbsp;&nbsp;&nbsp;arc = rθ&nbsp;&nbsp;&nbsp;sector = ½r²θ</Formula>
-      <p>The arc and sector formulas require θ in radians, not degrees. One radian is the angle that cuts an arc equal in length to the radius, so a full turn is 2π radians. Converting is a matter of multiplying degrees by π/180.</p>
-      <h2>Area scales with the square</h2>
-      <p>Double the radius and the circumference doubles, but the area quadruples. A 16-inch pizza has 78% more food than a 12-inch one, not 33% more, which makes the larger size almost always better value.</p>
-      <h2>Why radians exist at all</h2>
-      <p>Degrees are arbitrary — 360 is a historical choice with no mathematical basis. Radians make the formulas clean and, more importantly, make calculus work: the derivative of sin x is cos x only when x is measured in radians. In any degrees-based version an awkward factor of π/180 appears everywhere.</p>
+      <p>
+        Everything about a circle follows from its radius and the constant π, defined as
+        the ratio of any circle&rsquo;s circumference to its diameter. That ratio is
+        exactly the same for every circle regardless of size — a coin and a planet share
+        the identical π — which is the entire reason the constant is interesting enough
+        to have its own symbol and to have been studied for thousands of years.
+      </p>
+      <Formula>
+        C = 2πr&nbsp;&nbsp;&nbsp;A = πr²&nbsp;&nbsp;&nbsp;arc = rθ&nbsp;&nbsp;&nbsp;sector = ½r²θ
+      </Formula>
+      <p>
+        The arc-length and sector-area formulas both require the angle θ to be in
+        radians, not degrees — this is the single most common source of wrong answers
+        when working these problems by hand. One radian is defined as the angle that
+        subtends an arc exactly equal in length to the radius, so a full 360° turn is
+        2π radians. Converting between the two is a matter of multiplying degrees by
+        π/180, or dividing radians by that same factor to go the other way.
+      </p>
+
+      <h2>Area scales with the square of the radius, not the radius itself</h2>
+      <p>
+        Double the radius and the circumference doubles in step — but the area
+        quadruples, because area depends on r². This single fact has real practical
+        consequences: a 16-inch pizza has roughly 78% more surface area than a 12-inch
+        one, not the 33% more that comparing the diameters alone might suggest, which is
+        why the larger size at a pizzeria is almost always the better value per dollar
+        even when it costs noticeably more.
+      </p>
+
+      <h2>Why radians exist instead of just using degrees everywhere</h2>
+      <p>
+        Degrees are a historical convention — 360 was chosen by ancient Babylonian
+        astronomers, likely because it is close to the number of days in a year and
+        divides evenly by many small numbers, but it has no deeper mathematical
+        justification. Radians exist because they make the underlying mathematics
+        genuinely simpler, not just differently arbitrary: the derivative of sin(x) is
+        exactly cos(x) only when x is measured in radians. Using degrees instead forces
+        an awkward, unavoidable factor of π/180 to appear throughout calculus, physics
+        and engineering formulas, which is why virtually all higher mathematics defaults
+        to radians and treats degrees as a display convenience for humans rather than a
+        working unit.
+      </p>
+
+      <h2>Sectors, segments and chords — related but distinct shapes</h2>
+      <p>
+        A sector is the pie-slice shape bounded by two radii and the arc between them —
+        its area is what the sector-area formula above computes. A segment is different:
+        it is the region cut off by a straight chord rather than by two radii, meaning it
+        excludes the triangular portion at the centre. The chord length itself — the
+        straight-line distance between the two endpoints of the arc — is given by
+        2r·sin(θ/2), and it is always shorter than the arc it subtends, since a straight
+        line is always the shortest path between two points while the arc curves around
+        the outside.
+      </p>
+
+      <h2>Circles in the real world rarely appear alone</h2>
+      <p>
+        Most practical circle problems are really about circles embedded in something
+        else — a pipe&rsquo;s cross-sectional area for flow calculations, a wheel&rsquo;s
+        circumference for distance-per-revolution, a satellite dish&rsquo;s collecting
+        area for signal strength, which scales with the dish&rsquo;s area exactly the way
+        pizza value does. Whenever a problem involves circular motion, circular
+        cross-sections, or radial symmetry, these four formulas are almost always the
+        starting point, with the specific physical quantity substituted in afterward.
+      </p>
     </>
   ),
 });
@@ -178,14 +356,82 @@ export const standardDeviation = makeTool({
   },
   Article: () => (
     <>
-      <p>Standard deviation measures spread. It is the typical distance of a data point from the mean, expressed in the same units as the data — which is why it is preferred over variance, whose units are squared and therefore hard to interpret.</p>
-      <Formula>σ = √( Σ(xᵢ − x̄)² / N )&nbsp;&nbsp;&nbsp;s = √( Σ(xᵢ − x̄)² / (n − 1) )</Formula>
-      <h2>Why n − 1 for a sample</h2>
-      <p>Using the sample mean rather than the true population mean systematically underestimates the spread, because the sample mean sits closer to your particular data points than the real mean does. Dividing by n − 1 instead of n corrects this bias. Use n only when your data genuinely is the entire population — every student in one class, not a sample of students.</p>
+      <p>
+        Standard deviation measures spread — specifically, the typical distance of a data
+        point from the mean, expressed in the same units as the original data. This is
+        precisely why it is preferred over variance for interpretation: variance is
+        measured in squared units (dollars squared, centimetres squared), which has no
+        intuitive real-world meaning, while standard deviation converts that back into
+        the original, meaningful unit by taking a square root.
+      </p>
+      <Formula>
+        σ = √( Σ(xᵢ − x̄)² / N )&nbsp;&nbsp;&nbsp;s = √( Σ(xᵢ − x̄)² / (n − 1) )
+      </Formula>
+
+      <h2>Why sample standard deviation divides by n − 1, not n</h2>
+      <p>
+        Using the sample&rsquo;s own mean, rather than the true population mean, to
+        calculate deviations systematically underestimates the real spread — because by
+        definition, the sample mean is the value that minimises the sum of squared
+        deviations for that particular sample, meaning it sits slightly closer to your
+        specific data points than the true population mean would. Dividing by n − 1
+        instead of n is a mathematically derived correction for this bias, known as
+        Bessel&rsquo;s correction, and it makes the sample variance an unbiased estimator
+        of the true population variance. Use n only when your data genuinely constitutes
+        the entire population you care about — every student in one specific class,
+        every transaction in a closed dataset — rather than a sample drawn from some
+        larger group you are trying to draw conclusions about.
+      </p>
+
       <h2>Reading a standard deviation</h2>
-      <p>For roughly normal data, about 68% of values fall within one standard deviation of the mean, 95% within two and 99.7% within three. This is the empirical rule, and it is what makes a standard deviation intuitively meaningful. It fails badly for skewed distributions such as income, where the median is a more honest summary.</p>
+      <p>
+        For data that follows a roughly normal (bell-curve) distribution, standard
+        deviation has a precise, useful interpretation known as the empirical rule:
+        about 68% of values fall within one standard deviation of the mean, about 95%
+        fall within two, and about 99.7% fall within three. This is what makes standard
+        deviation intuitively meaningful rather than an abstract number — a value two
+        standard deviations from the mean is genuinely rare in a normal distribution.
+        The rule fails badly for skewed distributions, though — income is the classic
+        example, where a small number of very high earners stretch the distribution so
+        far that the mean sits well above where most people actually earn, and the
+        median becomes the far more honest summary of a typical value.
+      </p>
+
       <h2>Sensitivity to outliers</h2>
-      <p>Because deviations are squared, a single extreme value can dominate the result. Median and interquartile range are the robust alternatives when your data has genuine outliers you cannot justify removing.</p>
+      <p>
+        Because deviations from the mean are squared before being averaged, a single
+        extreme value can dominate the entire result — a squared deviation grows much
+        faster than the deviation itself, so one data point ten times further from the
+        mean than the rest contributes a hundred times more to the sum of squares.
+        Median and interquartile range are the standard robust alternatives when a
+        dataset contains genuine outliers that cannot be justified as errors and removed
+        — they describe the centre and spread of a distribution without being skewed by
+        a small number of extreme values the way mean and standard deviation are.
+      </p>
+
+      <h2>Coefficient of variation — comparing spread across different scales</h2>
+      <p>
+        Standard deviation alone cannot tell you whether one dataset is more variable
+        than another if the two are measured on different scales or have very different
+        means — a standard deviation of 5 is enormous for data centred around 10, but
+        trivial for data centred around 10,000. The coefficient of variation, calculated
+        as standard deviation divided by the mean, expresses spread as a proportion of
+        the average value, which makes comparing variability across genuinely different
+        datasets — different currencies, different units, different orders of magnitude
+        — meaningful in a way raw standard deviation cannot be.
+      </p>
+
+      <h2>Population versus sample — the decision that changes your answer</h2>
+      <p>
+        This distinction is not a minor technicality; the two formulas can give
+        noticeably different results, especially for small datasets, where the gap
+        between dividing by n and dividing by n − 1 is proportionally larger. Six data
+        points divided by 6 versus divided by 5 produces a real difference in the final
+        number. Before reading off a result, it is worth explicitly deciding: is this
+        dataset the entire group I care about, or is it a sample I am using to estimate
+        something about a larger group I have not fully measured? That single question
+        determines which formula is the statistically correct one to use.
+      </p>
     </>
   ),
 });
@@ -222,14 +468,70 @@ export const combinatorics = makeTool({
   },
   Article: () => (
     <>
-      <p>Counting problems come down to one question: does the order of the selection matter? If it does you want permutations; if it does not you want combinations.</p>
+      <p>
+        Counting problems come down to a single diagnostic question: does the order of
+        the selection matter? If it does, you want permutations. If it does not — if
+        rearranging the same items counts as the same outcome — you want combinations.
+        Nearly every confusion in this topic traces back to skipping that question and
+        guessing at a formula instead.
+      </p>
       <Formula>nPr = n! / (n − r)!&nbsp;&nbsp;&nbsp;nCr = n! / (r!(n − r)!)</Formula>
-      <h2>A worked distinction</h2>
-      <p>Choosing three people from ten to be president, secretary and treasurer is a permutation: 10P3 = 720, because swapping two of them produces a different outcome. Choosing three people from ten to form a committee is a combination: 10C3 = 120, because a committee is the same committee however you list its members. The permutation count is always larger by exactly r!, the number of ways to order the chosen group.</p>
-      <h2>Repetition changes everything</h2>
-      <p>If items can be reused — digits in a PIN, for instance — the count becomes n^r. A four-digit PIN has 10⁴ = 10,000 possibilities, but a four-digit code with no repeated digits has only 10P4 = 5,040.</p>
-      <h2>Combinations are binomial coefficients</h2>
-      <p>nCr is the same object as the coefficient of xʳ in the expansion of (1 + x)ⁿ, and the same as the entries in Pascal&rsquo;s triangle. That connection is why combinations appear throughout probability, from coin-flip distributions to the binomial theorem.</p>
+
+      <h2>A worked distinction between the two</h2>
+      <p>
+        Choosing three people from a group of ten to be president, secretary and
+        treasurer specifically is a permutation problem: 10P3 = 720, because assigning the
+        same three people to different roles produces a genuinely different outcome —
+        swapping who is president and who is secretary matters. Choosing the same three
+        people from ten simply to form an unranked committee is a combination problem:
+        10C3 = 120, because a committee of Alice, Bob and Carol is identical to a
+        committee of Carol, Bob and Alice — there is no role attached to distinguish the
+        orderings. Notice the permutation count is always exactly r! times larger than the
+        combination count (720 / 120 = 6 = 3!), because r! is precisely the number of ways
+        to reorder any given group of r chosen items, and permutations count every one of
+        those reorderings as distinct while combinations collapse them into one.
+      </p>
+
+      <h2>Repetition changes the entire calculation</h2>
+      <p>
+        Everything above assumes each item can be chosen at most once. If items can be
+        reused — digits in a PIN code, letters in a password, dice rolled multiple times
+        — the count becomes n^r instead, since every one of the r positions independently
+        has all n options available regardless of what was already chosen. A four-digit
+        PIN allowing repeated digits has 10⁴ = 10,000 possible combinations, but a
+        four-digit code where no digit may repeat has only 10P4 = 5,040 — nearly half as
+        many. This is precisely why security guidance sometimes discourages repeated
+        characters in passwords: repetition does not reduce the search space at all in
+        the way people intuitively expect, since 10,000 versus 5,040 is not actually a
+        large difference relative to how brute-force guessing scales with total length.
+      </p>
+
+      <h2>Combinations are the same thing as binomial coefficients</h2>
+      <p>
+        nCr is not merely related to the binomial coefficient — it <em>is</em> the
+        binomial coefficient, the number that appears as the coefficient of xʳ when
+        expanding (1 + x)ⁿ algebraically. It is also exactly the entries found in
+        Pascal&rsquo;s triangle, where each row corresponds to a fixed n and each position
+        along the row corresponds to r. This is not a coincidence or an analogy — the
+        combinatorial definition (ways to choose r items from n) and the algebraic
+        definition (a coefficient in a polynomial expansion) are provably the same
+        quantity, which is part of why combinations turn up constantly throughout
+        probability theory, genetics (Punnett square combinatorics), and computer science
+        (counting possible subsets or hash collisions).
+      </p>
+
+      <h2>Why factorials grow so explosively</h2>
+      <p>
+        Factorials grow far faster than exponential functions, which is why this
+        calculator caps n at 170 — beyond that, 171! already exceeds the largest number a
+        standard double-precision floating point number can represent, producing
+        infinity rather than a real answer. 10! is 3,628,800; 20! is already over
+        2.4 quintillion. This explosive growth is the mathematical reason that problems
+        like the travelling salesman problem (which naively requires checking (n−1)!
+        possible routes) become computationally intractable for even moderately large n —
+        20 cities alone would require checking more routes than there are seconds since
+        the Big Bang.
+      </p>
     </>
   ),
 });
@@ -262,15 +564,85 @@ export const logarithm = makeTool({
   },
   Article: () => (
     <>
-      <p>A logarithm answers the question &ldquo;what power do I raise this base to, to get this number?&rdquo; log₁₀(1000) = 3 because 10³ = 1000. It is exactly the inverse of exponentiation.</p>
-      <Formula>log_b(x) = y&nbsp;&nbsp;⟺&nbsp;&nbsp;b^y = x&nbsp;&nbsp;&nbsp;log_b(x) = ln(x) / ln(b)</Formula>
-      <h2>The three bases you actually meet</h2>
-      <p>Base 10 for orders of magnitude, decibels, pH and the Richter scale. Base e ≈ 2.71828 for anything involving continuous growth or calculus, because the derivative of eˣ is itself. Base 2 for computer science, where it counts bits and the depth of binary trees.</p>
-      <h2>The properties that make logs useful</h2>
-      <Formula>log(ab) = log a + log b{"\n"}log(a/b) = log a − log b{"\n"}log(aⁿ) = n · log a</Formula>
-      <p>Logarithms turn multiplication into addition. Before calculators this is why slide rules and log tables existed, and it remains why logarithmic axes make exponential data legible: a curve that doubles at a constant rate becomes a straight line.</p>
-      <h2>Change of base</h2>
-      <p>Most calculators only have ln and log₁₀, but any base can be obtained by dividing: log₇(50) = ln(50)/ln(7). It does not matter which of the two you use as long as you use the same one twice.</p>
+      <p>
+        A logarithm answers a single question: what power do I need to raise this base to,
+        in order to get this number? log₁₀(1000) = 3 because 10³ = 1000. A logarithm is
+        the precise inverse operation of exponentiation, in the same sense that
+        subtraction is the inverse of addition and division is the inverse of
+        multiplication — every exponential statement has a corresponding logarithmic one,
+        and moving between the two forms is what most logarithm problems actually require.
+      </p>
+      <Formula>
+        log_b(x) = y&nbsp;&nbsp;⟺&nbsp;&nbsp;b^y = x{"\n"}
+        log_b(x) = ln(x) / ln(b)
+      </Formula>
+
+      <h2>The three bases that actually show up in practice</h2>
+      <p>
+        <strong>Base 10</strong> appears wherever quantities span many orders of
+        magnitude and a compressed scale is useful — pH, the decibel scale, the Richter
+        scale for earthquake magnitude, and star brightness (apparent magnitude) all use
+        base-10 logarithms specifically because they let enormous ranges of underlying
+        physical quantity be expressed in small, comparable numbers.
+      </p>
+      <p>
+        <strong>Base e</strong> (Euler&rsquo;s number, approximately 2.71828) is the
+        natural choice throughout calculus and continuous growth models, because e is
+        defined precisely so that the derivative of eˣ is itself — no other base gives
+        this clean self-referential property. Compound interest, radioactive decay,
+        population growth models and the normal distribution all involve base e
+        somewhere underneath, even when the visible formula does not show it explicitly.
+      </p>
+      <p>
+        <strong>Base 2</strong> belongs to computer science, where it counts bits — the
+        number of times you can halve a search space, the depth of a balanced binary
+        tree, or the number of possible values representable in a given number of binary
+        digits. log₂(1024) = 10 is why 1024 bytes forms a kilobyte in binary-based
+        measurement, and why doubling a computer&rsquo;s memory or storage adds exactly
+        one to its log₂ value.
+      </p>
+
+      <h2>The algebraic properties that make logarithms genuinely useful</h2>
+      <Formula>
+        log(ab) = log a + log b{"\n"}
+        log(a/b) = log a − log b{"\n"}
+        log(aⁿ) = n · log a
+      </Formula>
+      <p>
+        These three identities are the entire reason logarithms were invented and used
+        for centuries before electronic calculators existed: they convert multiplication
+        into addition, division into subtraction, and exponentiation into multiplication —
+        each one operation simpler than the one it replaces. Slide rules, mechanical
+        devices used for calculation from the 17th century until pocket calculators
+        arrived in the 1970s, worked by physically adding lengths that represented
+        logarithms, turning otherwise laborious multiplication into a simple physical
+        measurement. The same identities are why logarithmic graph axes make exponential
+        data readable at a glance: a quantity that doubles at a constant rate traces a
+        perfectly straight line on a log-scaled axis, whereas on an ordinary linear axis
+        it curves upward so steeply that early, smaller values become impossible to read
+        against later, much larger ones.
+      </p>
+
+      <h2>Changing base is just a division away</h2>
+      <p>
+        Most calculators and programming languages provide only natural log and
+        base-10 log as built-in functions, but any base can be reached by dividing one
+        logarithm by another: log₇(50) is calculated as ln(50)/ln(7), or equally validly
+        as log₁₀(50)/log₁₀(7) — the two give an identical answer. It does not matter which
+        of the two common bases you pick for this calculation, as long as you use the
+        same one in both the numerator and the denominator; mixing ln in one and log₁₀ in
+        the other produces a meaningless result.
+      </p>
+
+      <h2>What the antilog undoes</h2>
+      <p>
+        The antilog is simply the reverse operation: given a logarithm value and a base,
+        it reconstructs the original number by raising the base to that power. If
+        log₁₀(x) = 3, the antilog recovers x = 10³ = 1000. This is genuinely useful when
+        working backward from a measurement already expressed on a logarithmic scale — for
+        instance, converting a pH reading back into an actual hydrogen ion concentration,
+        or converting a decibel figure back into a raw power or amplitude ratio.
+      </p>
     </>
   ),
 });
