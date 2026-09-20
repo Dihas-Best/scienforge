@@ -42,15 +42,78 @@ export const numberBase = makeTool({
   },
   Article: () => (
     <>
-      <p>A number base is just how many digits you count with before rolling over. Decimal uses ten, binary uses two, hexadecimal uses sixteen. The quantity being represented never changes — only the notation does.</p>
-      <Formula>value = Σ digitᵢ × baseⁱ</Formula>
-      <p>So 1011 in binary is 1×8 + 0×4 + 1×2 + 1×1 = 11, and FF in hex is 15×16 + 15 = 255.</p>
-      <h2>Why hexadecimal exists</h2>
-      <p>Sixteen is a power of two, so each hex digit maps to exactly four bits with no arithmetic required. A byte is always exactly two hex digits, which makes memory dumps, colour codes and register values far easier to read than the equivalent binary. Octal survives for the same reason in Unix file permissions, where three bits per digit matches the read-write-execute grouping.</p>
-      <h2>Prefixes</h2>
-      <p>Most languages mark the base with a prefix: <span className="font-mono">0b</span> for binary, <span className="font-mono">0o</span> for octal, <span className="font-mono">0x</span> for hex. A leading zero alone means octal in C and several languages derived from it, which is a long-standing source of bugs — <span className="font-mono">010</span> is eight, not ten.</p>
-      <h2>Bit width matters in embedded work</h2>
-      <p>An 8-bit register holds 0 to 255 unsigned, or −128 to 127 signed using two&rsquo;s complement. Writing 256 into it wraps to zero. This calculator shows how many bits a value needs, which is the check to do before choosing a variable type.</p>
+      <p>
+        A number base — also called a radix — is simply how many distinct digits a
+        counting system uses before it rolls over into an extra column. Decimal uses ten
+        digits (0 through 9), binary uses two (0 and 1), hexadecimal uses sixteen (0
+        through 9, then A through F to represent 10 through 15). The underlying quantity
+        being represented never changes between bases — 255 in decimal, 11111111 in
+        binary and FF in hexadecimal all describe the identical amount. Only the notation
+        used to write that amount changes.
+      </p>
+      <Formula>value = Σ digitᵢ × base^i</Formula>
+      <p>
+        Applying this directly: the binary number 1011 equals 1×2³ + 0×2² + 1×2¹ + 1×2⁰ =
+        8 + 0 + 2 + 1 = 11 in decimal. The hexadecimal number FF equals 15×16¹ + 15×16⁰ =
+        240 + 15 = 255. Every positional number system, regardless of base, works by this
+        same rule — each digit&rsquo;s value is multiplied by the base raised to the
+        power of its position, counting from zero at the rightmost digit.
+      </p>
+
+      <h2>Why hexadecimal became the standard for representing binary data</h2>
+      <p>
+        Sixteen is a power of two (2⁴), which creates an extremely convenient exact
+        relationship: each single hexadecimal digit corresponds to exactly four binary
+        bits, with no rounding, remainder, or arithmetic conversion required. This means
+        a full byte (8 bits) is always representable as exactly two hex digits — 11111111
+        in binary is simply FF in hex, with each hex digit covering one nibble (half a
+        byte) precisely. This clean correspondence is why memory addresses, colour codes
+        in web design and graphics (#FF5733, for instance), MAC addresses, and CPU
+        register values are almost universally displayed in hexadecimal rather than raw
+        binary — hex is dramatically more compact and human-readable while still mapping
+        losslessly and directly onto the underlying binary representation the hardware
+        actually uses.
+      </p>
+      <p>
+        Octal exists for a related but narrower reason: three binary bits map exactly
+        onto one octal digit, and this happens to align neatly with the traditional
+        three-bit read-write-execute permission grouping used in Unix and Linux file
+        permissions — which is why a command like <span className="font-mono">chmod
+        755</span> still uses octal notation today, decades after octal fell out of
+        general use elsewhere in computing.
+      </p>
+
+      <h2>Prefixes that tell a computer which base you mean</h2>
+      <p>
+        Because a bare string of digits like &ldquo;10&rdquo; is ambiguous without
+        context (it means completely different quantities in different bases), most
+        programming languages use a standard prefix to disambiguate:
+        <span className="font-mono"> 0b</span> for binary,
+        <span className="font-mono"> 0o</span> for octal, and
+        <span className="font-mono"> 0x</span> for hexadecimal. A genuinely tricky
+        historical gotcha: in C and many languages derived from it, a plain leading zero
+        with no letter — <span className="font-mono">010</span> — is interpreted as
+        octal, not decimal, meaning it actually equals eight, not ten. This has been a
+        long-running, well-documented source of subtle bugs whenever a programmer
+        zero-pads a decimal number for formatting purposes without realising the leading
+        zero changes its meaning entirely.
+      </p>
+
+      <h2>Bit width — the practical limit every embedded developer hits eventually</h2>
+      <p>
+        A register or variable with a fixed bit width can only hold a limited range of
+        values before it wraps around. An unsigned 8-bit register holds values from 0 to
+        255; a signed 8-bit register using the standard two&rsquo;s complement
+        representation holds −128 to 127 instead, trading half the positive range for the
+        ability to represent negative numbers. Writing a value of 256 into an 8-bit
+        register does not produce an error in most low-level contexts — it silently wraps
+        around to 0, since only the lowest 8 bits of the value are actually stored. This
+        specific failure mode, called integer overflow, is a genuine and recurring source
+        of bugs in embedded systems and older software, and checking how many bits a
+        value actually needs — which is exactly what this calculator&rsquo;s bit-width
+        row shows — is a routine early step before choosing an appropriately sized
+        variable type in low-level programming.
+      </p>
     </>
   ),
 });
