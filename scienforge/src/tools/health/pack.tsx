@@ -224,14 +224,72 @@ export const pace = makeTool({
   },
   Article: () => (
     <>
-      <p>Pace is time per unit distance; speed is distance per unit time. Runners think in pace because it is what a watch shows and what you hold during a race. They are reciprocals of each other.</p>
-      <Formula>pace (s/km) = time (s) / distance (km)&nbsp;&nbsp;&nbsp;speed (km/h) = 3600 / pace</Formula>
-      <h2>Race distances do not scale linearly</h2>
-      <p>Doubling the distance costs more than double the time, because you cannot hold the same intensity. A common rule of thumb adds roughly 15 to 20 seconds per kilometre when moving from 10 km to half marathon pace, and a similar amount again to marathon pace. Riegel&rsquo;s formula makes this precise with an exponent of about 1.06.</p>
-      <h2>Even splits versus positive splits</h2>
-      <p>Most personal bests over longer distances come from even or slightly negative splits — running the second half at the same speed or marginally faster. Starting too fast is the most common pacing mistake, and the time lost in the final quarter almost always exceeds the time gained early.</p>
-      <h2>Converting between units</h2>
-      <p>A mile is 1.609 km, so mile pace is always the larger number. 5:00/km is 8:03/mi; 4:00/km is 6:26/mi. A four-hour marathon is 5:41/km, and a sub-three-hour marathon needs 4:16/km sustained for the full 42.195 km.</p>
+      <p>
+        Pace is time per unit distance; speed is distance per unit time. Runners think in
+        pace — minutes per kilometre or per mile — because that is what a running watch
+        displays and what athletes actually hold steady during a race, whereas cyclists
+        and drivers more naturally think in speed. The two are simply reciprocals of each
+        other, and converting between them is one division either way.
+      </p>
+      <Formula>
+        pace (s/km) = time (s) / distance (km)&nbsp;&nbsp;&nbsp;speed (km/h) = 3600 / pace
+      </Formula>
+
+      <h2>Race distances do not scale linearly with time</h2>
+      <p>
+        Doubling the race distance costs meaningfully more than double the finishing
+        time, because sustaining a given intensity gets progressively harder as duration
+        increases — the physiological systems that fuel a 20-minute effort are not the
+        same ones that dominate a 3-hour effort, and fatigue, fuelling and pacing
+        discipline all become bigger factors as distance grows. A common rule of thumb
+        among distance runners is to add roughly 15 to 20 seconds per kilometre when
+        moving from 10 km race pace to half marathon pace, and to add a comparable amount
+        again when stepping up from half marathon to full marathon pace. Riegel&rsquo;s
+        formula, a widely used race-prediction model in running, makes this relationship
+        mathematically precise using a fatigue exponent of approximately 1.06, applied to
+        the ratio of the two distances — a small-looking exponent that nonetheless
+        produces the substantial pace slowdown experienced at longer distances.
+      </p>
+
+      <h2>Even splits beat positive splits, almost always</h2>
+      <p>
+        A negative split means running the second half of a race faster than the first;
+        a positive split means slowing down in the second half. The overwhelming pattern
+        among personal-best performances at longer distances is even or slightly negative
+        splitting — holding the same pace throughout, or running marginally faster in the
+        closing stages. Starting too fast is the single most common pacing mistake made
+        by both beginner and experienced runners alike, and the time lost struggling
+        through the final quarter of a race from starting too aggressively almost always
+        exceeds whatever time was gained by running the opening kilometres faster than
+        planned. This is why experienced coaches consistently emphasise conservative
+        starts even when a runner feels deceptively fresh in the first few kilometres.
+      </p>
+
+      <h2>Converting between kilometre and mile pace</h2>
+      <p>
+        A mile is 1.609344 kilometres, so a mile-pace figure is always the larger number
+        when compared to the equivalent kilometre pace, since each mile covers more
+        ground than each kilometre and therefore takes longer to run at the same
+        underlying speed. A pace of 5:00 per kilometre works out to 8:03 per mile; 4:00
+        per kilometre is 6:26 per mile. Reference points worth knowing: a four-hour
+        marathon finish requires an average pace of 5:41 per kilometre sustained for the
+        entire distance, while breaking three hours — a serious benchmark for
+        recreational marathon runners — requires holding 4:16 per kilometre for the full
+        42.195 km, an average that has to survive fatigue, terrain, and weather across
+        more than two and a half hours of continuous effort.
+      </p>
+
+      <h2>Why split times matter more than average pace alone</h2>
+      <p>
+        Two runners can finish a marathon in the identical time while experiencing very
+        different races — one holding a smooth, even pace throughout, the other starting
+        fast and fading badly in the final 10 kilometres. Average pace, calculated simply
+        as total time divided by total distance, cannot distinguish between these two
+        very different pacing strategies. This is why serious runners track kilometre or
+        mile splits during a race rather than relying on the average pace alone — the
+        split pattern reveals whether the effort was well judged or whether an earlier,
+        faster start quietly borrowed against a slower, harder finish.
+      </p>
     </>
   ),
 });
