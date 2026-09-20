@@ -93,14 +93,72 @@ export const phCalc = makeTool({
   },
   Article: () => (
     <>
-      <p>pH is the negative base-10 logarithm of the hydrogen ion concentration in moles per litre. The logarithm is there because those concentrations span fourteen orders of magnitude, which is unwieldy to write out.</p>
-      <Formula>pH = −log₁₀[H⁺]&nbsp;&nbsp;&nbsp;[H⁺] = 10^(−pH)&nbsp;&nbsp;&nbsp;pH + pOH = 14</Formula>
-      <h2>Each unit is a factor of ten</h2>
-      <p>A solution at pH 3 has ten times the hydrogen ion concentration of one at pH 4, and a hundred times that of pH 5. This is why lemon juice at pH 2 is enormously more acidic than coffee at pH 5, despite the numbers looking close.</p>
-      <h2>The 14 is not a hard boundary</h2>
-      <p>Water self-ionises, and at 25 °C the product [H⁺][OH⁻] equals 1.0 × 10⁻¹⁴, which is where the 14 comes from. It shifts with temperature: at 50 °C neutral water sits at pH 6.63, still neutral but numerically lower. Concentrated strong acids can also give pH values below 0, and strong bases above 14.</p>
-      <h2>Strong versus weak</h2>
-      <p>A strong acid dissociates completely, so 0.1 M HCl gives [H⁺] = 0.1 and pH 1. A weak acid does not: 0.1 M acetic acid gives pH around 2.9, because only about 1% of it ionises. Calculating weak-acid pH requires the acid dissociation constant Ka and usually a quadratic.</p>
+      <p>
+        pH is the negative base-10 logarithm of the hydrogen ion concentration in moles
+        per litre. The logarithm exists purely for convenience: hydrogen ion
+        concentrations in ordinary solutions span roughly fourteen orders of magnitude,
+        from about 1 mol/L in a strong acid down to about 10⁻¹⁴ mol/L in a strong base,
+        and writing those numbers out directly would be unwieldy for everyday use. Taking
+        a logarithm compresses that entire range into a manageable scale running roughly
+        from 0 to 14.
+      </p>
+      <Formula>
+        pH = −log₁₀[H⁺]&nbsp;&nbsp;&nbsp;[H⁺] = 10^(−pH)&nbsp;&nbsp;&nbsp;pH + pOH = 14
+      </Formula>
+
+      <h2>Each whole unit is a factor of ten, not a fixed amount</h2>
+      <p>
+        Because pH is logarithmic, a solution at pH 3 has ten times the hydrogen ion
+        concentration of one at pH 4, and a hundred times that of one at pH 5. This is why
+        lemon juice at roughly pH 2 is not merely &ldquo;a bit more acidic&rdquo; than
+        black coffee at roughly pH 5 — it is about a thousand times more concentrated in
+        hydrogen ions, despite the two numbers looking close together on the scale.
+        Misreading pH as a linear scale is one of the most common sources of confusion in
+        introductory chemistry, and it leads people to badly underestimate how much
+        stronger a low-pH solution actually is.
+      </p>
+
+      <h2>Where the number 14 actually comes from</h2>
+      <p>
+        Water self-ionises to a small degree, constantly splitting into H⁺ and OH⁻ ions
+        and recombining. At 25 °C, the product of those two ion concentrations, [H⁺][OH⁻],
+        is a constant equal to 1.0 × 10⁻¹⁴ — this constant is called Kw, the ion-product
+        constant of water, and taking its negative logarithm gives exactly 14, which is
+        where the familiar pH + pOH = 14 relationship comes from. Crucially, this is not a
+        fixed law of nature; Kw itself changes with temperature, because the equilibrium
+        of water&rsquo;s self-ionisation shifts as temperature changes. At 50 °C, neutral
+        water actually sits at pH 6.63 rather than 7.00 — still chemically neutral, since
+        [H⁺] still equals [OH⁻] at that point, but numerically lower because Kw has
+        increased. It is also possible for concentrated strong acids to have a calculated
+        pH below 0, and concentrated strong bases to exceed pH 14 — the 0-to-14 scale is a
+        convenient range for typical dilute solutions, not a hard mathematical boundary.
+      </p>
+
+      <h2>Strong acids and bases dissociate completely; weak ones do not</h2>
+      <p>
+        A strong acid like hydrochloric acid dissociates essentially completely in water,
+        so a 0.1 mol/L solution of HCl gives [H⁺] = 0.1 mol/L directly, and therefore
+        pH = 1 exactly. A weak acid behaves very differently: a 0.1 mol/L solution of
+        acetic acid (the acid in vinegar) gives a pH around 2.9, not 1, because only
+        roughly 1% of the acetic acid molecules actually ionise into H⁺ and acetate ions
+        at that concentration — the rest remain as intact, neutral acetic acid molecules.
+        Calculating the pH of a weak acid properly requires knowing its acid dissociation
+        constant, Ka, and typically solving a quadratic equation derived from the
+        equilibrium expression, rather than the simple direct calculation that works for
+        strong acids.
+      </p>
+
+      <h2>Why pH matters beyond the chemistry classroom</h2>
+      <p>
+        pH governs an enormous range of practical processes: enzymes in the human body
+        function only within narrow pH windows, which is why blood pH is tightly
+        regulated to stay between about 7.35 and 7.45 — even a small deviation outside
+        this range is a serious medical emergency. Soil pH determines which nutrients are
+        available to plants and therefore what will grow well in a given location.
+        Swimming pool pH has to be kept in a specific range both for swimmer comfort and
+        for chlorine to work effectively as a disinfectant, since chlorine&rsquo;s
+        effectiveness itself depends heavily on the surrounding pH.
+      </p>
     </>
   ),
 });
@@ -157,15 +215,71 @@ export const dilution = makeTool({
   },
   Article: () => (
     <>
-      <p>Diluting a solution adds solvent without adding solute. The number of moles present does not change; only the volume they are spread through does. That single fact gives the dilution equation.</p>
+      <p>
+        Diluting a solution adds solvent without adding any more solute — the total
+        number of solute molecules or ions present does not change; only the volume they
+        are dispersed through increases. Since concentration is simply moles (or mass) of
+        solute divided by volume, and the amount of solute stays fixed, this single fact
+        is enough to derive the entire dilution equation without needing to know anything
+        else about the specific chemicals involved.
+      </p>
       <Formula>C₁V₁ = C₂V₂</Formula>
-      <p>The units of concentration cancel, so molarity, percent or grams per litre all work — as long as you use the same unit on both sides. The same is true of volume.</p>
-      <h2>Making it up correctly</h2>
-      <p>Measure the stock volume accurately with a pipette, transfer it to a volumetric flask, then add solvent up to the graduation mark. Do not measure out the solvent separately and add it to the stock: volumes are not always additive, and the error compounds with the concentrated solutions where accuracy matters most.</p>
-      <h2>Serial dilution</h2>
-      <p>To reach a very low concentration, dilute in stages. Ten successive 1:10 dilutions give a factor of 10¹⁰, which no single step could achieve accurately. Each stage carries its own error, so mix thoroughly between steps and use a fresh pipette tip each time.</p>
-      <h2>Safety with concentrated acids</h2>
-      <p>Always add acid to water, never water to acid. Dilution releases a large amount of heat, and adding water to concentrated sulfuric acid can flash it to steam and eject acid from the container.</p>
+      <p>
+        C₁ and V₁ are the concentration and volume of the concentrated stock solution
+        before dilution; C₂ and V₂ are the concentration and volume after solvent has
+        been added. Because both sides of the equation represent the same fixed quantity
+        of solute (concentration times volume equals amount, on both sides), the units of
+        concentration are free to cancel — molarity, percent by mass, or grams per litre
+        all work equally well, as long as the same unit is used consistently on both
+        sides of the equation. The same logic applies to volume: litres and millilitres
+        both work, provided both volumes use the same unit.
+      </p>
+
+      <h2>Making up a dilution correctly in practice</h2>
+      <p>
+        The correct technique is to measure the stock solution volume precisely using a
+        pipette or volumetric measuring device, transfer that measured volume into a
+        clean volumetric flask, and then add solvent up to the flask&rsquo;s calibrated
+        graduation mark — not simply adding a separately-measured volume of solvent to
+        the stock. This distinction matters because volumes of different substances are
+        not always perfectly additive when mixed (dissolving or mixing two liquids can
+        very slightly change total volume due to how molecules pack together), and this
+        small discrepancy compounds into meaningful error exactly in the situations where
+        accuracy matters most — concentrated stock solutions used in analytical or
+        pharmaceutical work, where a small volume error at the concentrated stage
+        translates into a proportionally larger error after dilution.
+      </p>
+
+      <h2>Serial dilution — reaching concentrations too low to measure directly</h2>
+      <p>
+        Some target concentrations are so far below the stock concentration that
+        attempting the dilution in a single step would require measuring an impractically
+        tiny stock volume, which is both physically difficult and highly inaccurate with
+        standard lab equipment. The standard solution is serial dilution: performing
+        several dilution steps in sequence, each one diluting the result of the previous
+        step. Ten successive 1:10 dilutions compound multiplicatively to give an overall
+        factor of 10¹⁰ — ten billion-fold — a dilution no single step could achieve with
+        any real accuracy, since it would require measuring out roughly one drop of stock
+        into an Olympic swimming pool&rsquo;s worth of solvent. Each individual stage in a
+        serial dilution carries its own small measurement error, though, so it is
+        important to mix each stage thoroughly before proceeding, and to use a fresh
+        pipette tip at every step to avoid carrying over residual concentrated solution
+        that would throw off the following dilutions.
+      </p>
+
+      <h2>A safety rule that is not optional: acid into water, never the reverse</h2>
+      <p>
+        Diluting a concentrated acid releases a substantial amount of heat, because the
+        process of the acid molecules interacting with water is itself exothermic.
+        Always add the concentrated acid slowly into the water, never the reverse. Adding
+        water directly onto a concentrated acid — particularly concentrated sulfuric
+        acid — can generate heat fast enough, at the point of contact, to flash a thin
+        layer of water into steam almost instantly. That steam expansion can violently
+        eject droplets of concentrated acid out of the container toward whoever is
+        performing the dilution. This is one of the very few rules in a chemistry lab
+        that has essentially no exceptions, regardless of the specific acid or scale
+        involved.
+      </p>
     </>
   ),
 });
